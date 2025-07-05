@@ -1,22 +1,36 @@
-"use client"
+'use client'
 
-// pages/auth/signin.tsx
 import { useState } from 'react'
-import { Form, Input, Button, Typography } from 'antd'
+import { Form, Input, Button, Typography, message } from 'antd'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import AuthLayout from '@/components/layouts/AuthLayout'
+import { useAuth } from '@/hooks/useAuth'
+import { loginSchema } from '@/schemas/authSchemas'
 
 const { Title, Text } = Typography
 
-const SignIn: React.FC = () => {
+export default function SignIn() {
+  const router = useRouter()
+  const { login } = useAuth()
   const [loading, setLoading] = useState(false)
 
   const onFinish = async (values: { email: string; password: string }) => {
     setLoading(true)
+    const result = loginSchema.safeParse(values)
+    if (!result.success) {
+      message.error(result.error.errors.map(e => e.message).join(', '))
+      return
+    }
     try {
-      // TODO: call your sign-in API
-      console.log('Signing in with', values)
+      await login(values.email, values.password)
+      message.success('Signed in successfully!')
+      router.push('/')  // redirect to dashboard or home
+    } catch (err: any) {
+      console.log({err});
+      
+      message.error(err?.data?.data || 'Sign in failed')
     } finally {
       setLoading(false)
     }
@@ -50,20 +64,15 @@ const SignIn: React.FC = () => {
           <Input.Password
             placeholder="Password"
             size="large"
-            iconRender={visible =>
-              visible ? <FiEyeOff /> : <FiEye />
-            }
+            iconRender={visible => (visible ? <FiEyeOff /> : <FiEye />)}
           />
         </Form.Item>
 
         <div className="text-sm">
           <Text>
-            Already having an account?{' '}
-            <Link
-              href="/auth/signup"
-              className="text-teal-700 font-semibold"
-            >
-              Signup
+            Don’t have an account?{' '}
+            <Link href="/signup" className="text-teal-700 font-semibold">
+              Sign Up
             </Link>
             .
           </Text>
@@ -83,19 +92,11 @@ const SignIn: React.FC = () => {
         </Form.Item>
 
         <Text className="block text-center text-xs text-gray-500">
-          By clicking Continue, you agree to Lab-D’s{' '}
-          <Link href="/privacy" className="text-teal-700">
-            Privacy policy
-          </Link>
-          ,{' '}
-          <Link href="/terms" className="text-teal-700">
-            Terms and conditions
-          </Link>
-          .
+          By clicking Continue, you agree to JabConnect’s{' '}
+          <Link href="/privacy" className="text-teal-700">Privacy Policy</Link>,{' '}
+          <Link href="/terms" className="text-teal-700">Terms & Conditions</Link>.
         </Text>
       </Form>
     </AuthLayout>
   )
 }
-
-export default SignIn

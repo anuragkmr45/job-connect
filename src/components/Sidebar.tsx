@@ -1,10 +1,12 @@
 "use client"
 
 import React from 'react'
+import { Button } from 'antd'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { FiSearch, FiBookmark, FiMessageSquare } from 'react-icons/fi'
 import Image from 'next/image'
+import { useLogout } from '@/hooks/useLogout'
 
 interface SidebarItem {
   key: string
@@ -23,6 +25,7 @@ const ITEMS: SidebarItem[] = [
 
 export default function Sidebar() {
   const pathname = usePathname()
+  const { logout } = useLogout()
 
   // pick the matching item by URL:
   const activeKey =
@@ -35,7 +38,7 @@ export default function Sidebar() {
     <div className="flex flex-col h-screen bg-[#1e293b] text-white">
       {/* header */}
       <div className="flex items-center px-6 py-4 space-x-3">
-        <Image src="/labd-logo.png" alt="JobConnect" width={40} height={40} />
+        <Image src="https://res.cloudinary.com/dkwptotbs/image/upload/v1751692517/job-connect_lhcl0l.png" alt="JobConnect" width={40} height={40} />
         <div>
           <h1 className="text-lg font-semibold">JobConnect</h1>
           <p className="text-xs text-gray-400">Military Career Portal</p>
@@ -52,7 +55,7 @@ export default function Sidebar() {
               href={item.href}
               className={`
                 flex items-center px-4 py-3 rounded-lg
-                transition-colors transition-shadow duration-200 ease-in-out
+                transition-all duration-200 ease-in-out
                 ${isActive
                   ? 'bg-[#334155] text-amber-50 shadow-md'
                   : 'text-gray-300 hover:bg-[#2e3a4b] hover:shadow-sm'}
@@ -67,7 +70,10 @@ export default function Sidebar() {
 
       {/* footer */}
       <div className="px-6 py-4 text-xs text-gray-500">
-        Serving Those Who Served
+        {/* Serving Those Who Served */}
+        <Button type="default" className='bg-red-900 text-white w-full' onClick={logout}>
+          Log out
+        </Button>
       </div>
     </div>
   )

@@ -9,10 +9,10 @@ type AuthLayoutProps = {
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => (
   <div className="flex">
-    {/* Left panel: full height */}
-    <div className="w-1/2 h-screen bg-[#334155] text-white p-8 flex flex-col justify-between">
-      <div>
-        <Image src="/labd-logo.png" alt="Job Connect" width={120} height={40} />
+    {/* Left panel: hidden on <md, flex on md+ */}
+    <div className="hidden md:flex md:w-1/2 lg:w-1/2 h-screen bg-[#334155] text-white p-8 flex-col justify-between">
+      <div className='flex align-middle'>
+        <Image src="https://res.cloudinary.com/dkwptotbs/image/upload/v1751692517/job-connect_lhcl0l.png" alt="Job Connect" width={50} height={40} />
         <h1 className="mt-4 text-3xl font-bold">JobConnect</h1>
       </div>
       <p className="text-base leading-relaxed">
@@ -23,15 +23,15 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => (
       </p>
     </div>
 
-    {/* Right panel: full height, scrollable, content top-aligned */}
-    <div className="w-1/2 h-screen p-12 relative bg-white overflow-auto">
-      {/* Close icon stays fixed */}
+    {/* Right panel: occupies full width on <md, half on md+ */}
+    <div className="w-full md:w-1/2 lg:w-1/2 h-screen p-12 relative bg-white overflow-auto">
+      {/* Close icon */}
       <FiX
         className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 cursor-pointer"
         size={20}
       />
 
-      {/* Move the form container to the top with some margin */}
+      {/* Form container */}
       <div className="w-full max-w-md mx-auto mt-4">
         {children}
       </div>
