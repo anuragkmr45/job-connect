@@ -1,17 +1,10 @@
-import DocumentUploadCard from "@/components/cards/DocumentUploadCard";
-import JobListingCard from "@/components/cards/JobListingCard";
-import JobSearchFiltersCard from "@/components/cards/JobSearchFiltersCard";
-import ProfileCompletionCard from "@/components/cards/ProfileCompletionCard";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 
 export default function Home() {
   return (
     <DashboardLayout>
-      <div className="">
-        <JobSearchFiltersCard />
-        <ProfileCompletionCard />
-        <JobListingCard />
-        <DocumentUploadCard />
+      <div className="flex h-full items-center justify-center">
+        <h1 className="text-2xl font-semibold">COMING SOON</h1>
       </div>
     </DashboardLayout>
   );

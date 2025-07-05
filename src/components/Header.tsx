@@ -60,15 +60,12 @@ export interface HeaderProps {
   title: string
   notificationCount?: number
   avatarSrc?: string
-  /** Called when the avatar (mobile menu button) is clicked */
-  onAvatarClick?: () => void
 }
 
 const Header: React.FC<HeaderProps> = ({
   title,
   notificationCount = 0,
   avatarSrc = '/avatar.png',
-  onAvatarClick
 }) => (
   <header className="flex items-center justify-between bg-white px-6 py-3 shadow sticky top-0 z-20">
     {/* Page title */}
@@ -92,10 +89,7 @@ const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Avatar / Mobile menu button */}
-      <div
-        className="w-8 h-8 rounded-full overflow-hidden cursor-pointer"
-        onClick={onAvatarClick}
-      >
+      <div className="w-8 h-8 rounded-full overflow-hidden cursor-pointer">
         <Image
           src={avatarSrc}
           alt="User Avatar"

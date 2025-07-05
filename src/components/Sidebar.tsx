@@ -37,13 +37,13 @@ export default function Sidebar() {
   return (
     <div className="flex flex-col h-screen bg-[#1e293b] text-white">
       {/* header */}
-      <div className="flex items-center px-6 py-4 space-x-3">
+      <Link href='/' className="flex items-center px-6 py-4 space-x-3 cursor-pointer">
         <Image src="https://res.cloudinary.com/dkwptotbs/image/upload/v1751692517/job-connect_lhcl0l.png" alt="JobConnect" width={40} height={40} />
         <div>
           <h1 className="text-lg font-semibold">JobConnect</h1>
           <p className="text-xs text-gray-400">Military Career Portal</p>
         </div>
-      </div>
+      </Link>
 
       {/* nav */}
       <nav className="flex-1 overflow-y-auto px-2 space-y-1">
