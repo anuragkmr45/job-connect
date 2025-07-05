@@ -27,11 +27,11 @@ export function useAuth() {
   const dispatch = useAppDispatch()
   const { token, preSignupToken } = useAppSelector(s => s.auth)
 
-  const [sendOtpTrigger,    sendOtpResult]    = useSendOtpMutation()
-  const [verifyOtpTrigger,  verifyOtpResult]  = useVerifyOtpMutation()
-  const [registerTrigger,   registerResult]   = useRegisterMutation()
-  const [loginTrigger,      loginResult]      = useLoginMutation()
-  const [forgotTrigger,     forgotResult]     = useForgotPasswordMutation()
+  const [sendOtpTrigger, sendOtpResult] = useSendOtpMutation()
+  const [verifyOtpTrigger, verifyOtpResult] = useVerifyOtpMutation()
+  const [registerTrigger, registerResult] = useRegisterMutation()
+  const [loginTrigger, loginResult] = useLoginMutation()
+  const [forgotTrigger, forgotResult] = useForgotPasswordMutation()
   const [changePassTrigger, changePassResult] = useChangePasswordMutation()
 
   const sendOtp = useCallback(async (email: string, type: 'signup' | 'login') => {

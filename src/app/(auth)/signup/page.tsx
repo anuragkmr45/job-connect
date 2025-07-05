@@ -81,11 +81,11 @@ export default function SignUp() {
 
   const handleSignUp = async (values: SignupStep2) => {
     setLoading(true)
-    const result = signupSchema.safeParse(values)
-    if (!result.success) {
-      message.error(result.error.errors.map(e => e.message).join(', '))
-      return
-    }
+    // const result = signupSchema.safeParse(values)
+    // if (!result.success) {
+    //   message.error(result.error.errors.map(e => e.message).join(', '))
+    //   return
+    // }
     try {
       await register(values)
       message.success('Signup successful! Redirecting to dashboard...')
@@ -108,7 +108,7 @@ export default function SignUp() {
 
   return (
     <AuthLayout>
-      <div className="flex flex-col h-screen overflow-hidden">
+      <div className="flex flex-col overflow-hidden">
         <div className="flex-none p-4">
           <Title level={2}>{titleText}</Title>
         </div>
