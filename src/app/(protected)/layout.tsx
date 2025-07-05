@@ -20,7 +20,7 @@ export default function ProtectedLayout({ children }: { children: ReactNode }) {
   // 2) If no token, send to signin
   useEffect(() => {
     if (ready && !token) {
-      router.replace('/auth/signin');
+      router.replace('/signin');
     }
   }, [ready, token, router]);
 
@@ -34,7 +34,7 @@ export default function ProtectedLayout({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (ready && error && 'status' in error && error.status === 401) {
       dispatch(clearAuth());
-      router.replace('/auth/signin');
+      router.replace('/signin');
     }
   }, [ready, error, dispatch, router]);
 

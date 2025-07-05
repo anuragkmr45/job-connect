@@ -23,7 +23,7 @@ export function useLogout() {
     await persistor.purge()
 
     // 3) navigate to sign-in
-    router.push('/auth/signin')
+    router.push('/signin')
   }, [dispatch, router])
 
   return { logout }

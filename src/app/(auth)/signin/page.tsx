@@ -24,7 +24,10 @@ export default function SignIn() {
       return
     }
     try {
+      console.log("api claed ");
+      
       await login(values.email, values.password)
+      console.log("api claed skdjnskdj");
       message.success('Signed in successfully!')
       router.push('/')  // redirect to dashboard or home
     } catch (err: any) {
