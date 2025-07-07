@@ -38,18 +38,18 @@ export const getStep1Config = (): FieldConfig[] => [
  * Now expects already‐mapped Option[] arrays, not raw API types.
  */
 export function getStep2Config(dropdowns: {
-  trades:   Option[]
+  trades: Option[]
   statuses: Option[]
-  locations:Option[]
-  roles:    Option[]
-  quals:    Option[]
+  locations: Option[]
+  roles: Option[]
+  quals: Option[]
 }): FieldConfig[] {
   return [
     { key: 'password', label: 'Password', type: 'input', inputType: 'password', rules: [{ required: true }] },
-    { key: 'name',     label: 'Full Name', type: 'input', rules: [{ required: true }] },
-    { key: 'contact',  label: 'Contact',    type: 'input', inputType: 'tel', rules: [{ required: true }] },
-    { key: 'aadhaar',  label: 'Aadhaar No.',type: 'input',                       rules: [{ required: true }] },
-    { key: 'pan',      label: 'PAN No.',    type: 'input',                       rules: [{ required: true }] },
+    { key: 'name', label: 'Full Name', type: 'input', rules: [{ required: true }] },
+    { key: 'contact', label: 'Contact', type: 'input', inputType: 'tel', rules: [{ required: true }] },
+    { key: 'aadhaar', label: 'Aadhaar No.', type: 'input', rules: [{ required: true }] },
+    { key: 'pan', label: 'PAN No.', type: 'input', rules: [{ required: true }] },
 
     {
       key: 'military_trade_id',
@@ -69,7 +69,7 @@ export function getStep2Config(dropdowns: {
     },
 
     { key: 'service_start_date', label: 'Service Start Date', type: 'date', rules: [{ required: true }] },
-    { key: 'service_end_date',   label: 'Service End Date',   type: 'date', rules: [{ required: true }] },
+    { key: 'service_end_date', label: 'Service End Date', type: 'date', rules: [{ required: true }] },
 
     {
       key: 'preferred_location_ids',

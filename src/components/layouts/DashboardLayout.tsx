@@ -16,12 +16,12 @@ const TITLES: Record<string, string> = {
 }
 
 export default function DashboardLayout({ children }: PropsWithChildren<{}>) {
-  const path = usePathname()
+  const path = usePathname();
   const title = TITLES[path] ?? 'Dashboard'
 
   // state for mobile drawer
-  const [drawerOpen, setDrawerOpen] = useState(false)
-  const toggleDrawer = () => setDrawerOpen(o => !o)
+  // const [drawerOpen, setDrawerOpen] = useState(false)
+  // const toggleDrawer = () => setDrawerOpen(o => !o)
 
   return (
     <ProtectedLayout>

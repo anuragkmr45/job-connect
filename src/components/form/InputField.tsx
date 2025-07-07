@@ -8,6 +8,7 @@ export interface InputFieldProps {
     placeholder?: string
     type?: 'text' | 'email' | 'password' | 'tel'
     rules?: Rule[]
+    isDisabled?: boolean
 }
 
 export default function InputField({
@@ -16,6 +17,7 @@ export default function InputField({
     placeholder,
     type = 'text',
     rules = [],
+    isDisabled = false
 }: InputFieldProps) {
     return (
         <Form.Item name={name} label={label} rules={rules}>
@@ -23,6 +25,7 @@ export default function InputField({
                 type={type}
                 placeholder={placeholder}
                 size="large"
+                disabled={isDisabled}
             />
         </Form.Item>
     )

@@ -24,15 +24,10 @@ export default function SignIn() {
       return
     }
     try {
-      console.log("api claed ");
-      
       await login(values.email, values.password)
-      console.log("api claed skdjnskdj");
       message.success('Signed in successfully!')
-      router.push('/')  // redirect to dashboard or home
+      router.replace('/')  // redirect to dashboard or home
     } catch (err: any) {
-      console.log({err});
-      
       message.error(err?.data?.data || 'Sign in failed')
     } finally {
       setLoading(false)
@@ -72,13 +67,9 @@ export default function SignIn() {
         </Form.Item>
 
         <div className="text-sm">
-          <Text>
-            Don’t have an account?{' '}
-            <Link href="/signup" className="text-teal-700 font-semibold">
-              Sign Up
-            </Link>
-            .
-          </Text>
+          <Link href="/forgot-password" className="text-teal-700 font-semibold">
+            Forgot Password ?
+          </Link>
         </div>
 
         <Form.Item>
@@ -94,11 +85,21 @@ export default function SignIn() {
           </Button>
         </Form.Item>
 
-        <Text className="block text-center text-xs text-gray-500">
+        <div className="text-sm">
+          <Text>
+            Don’t have an account?{' '}
+            <Link href="/signup" className="text-teal-700 font-semibold">
+              Sign Up
+            </Link>
+            .
+          </Text>
+        </div>
+
+        {/* <Text className="block text-center text-xs text-gray-500">
           By clicking Continue, you agree to JabConnect’s{' '}
           <Link href="/privacy" className="text-teal-700">Privacy Policy</Link>,{' '}
           <Link href="/terms" className="text-teal-700">Terms & Conditions</Link>.
-        </Text>
+        </Text> */}
       </Form>
     </AuthLayout>
   )
