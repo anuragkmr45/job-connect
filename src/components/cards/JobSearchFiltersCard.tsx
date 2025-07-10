@@ -13,16 +13,16 @@ const quickFilters = [
     'Government Contracts', 'Private Contracts', 'Mumbai', 'Hyderabad',
 ]
 
-export default function JobSearchFiltersCard() {
+export default function  JobSearchFiltersCard() {
     return (
-        <CardLayout elevation="sm" hoverable className="max-w-md mx-auto">
+        <CardLayout elevation="sm" hoverable className="mx-auto">
             {/* Search */}
             <SearchBar
                 placeholder="Search for roles or companies…"
                 onSearch={value => console.log('searching for', value)}
                 enterButton="Go"
                 size="middle"
-                className="max-w-md mx-auto"
+                className="mx-auto"
             />
             {/* Dropdown-like chips */}
             <div className="mt-4 flex space-x-2">

@@ -62,8 +62,11 @@ export const jobApi = createApi({
             }),
             providesTags: ['Jobs'],
         }),
-        getRecommendedJobs: builder.query<RecommendedJobsResponse, void>({
-            query: () => '/api/jobs/recommended',
+        getRecommendedJobs: builder.query<RecommendedJobsResponse, PaginationParams>({
+            query: ({ page = 1, pageSize = 10 } = {}) => ({
+                url: '/api/jobs/recommended',
+                // params: { page, pageSize },
+            }),
             transformResponse: (raw: any): RecommendedJobsResponse => ({
                 jobs: raw.jobs.map(mapJob),
             }),

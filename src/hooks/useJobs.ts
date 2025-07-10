@@ -18,10 +18,11 @@ export const useJobs = (
   searchParams?: SearchParams,
   savedParams?: PaginationParams,
   appliedParams?: PaginationParams,
-  recentParams?: PaginationParams
+  recentParams?: PaginationParams,
+  recommendedParams?: PaginationParams
 ) => {
   const searchResult = useSearchJobsQuery(searchParams ?? skipToken);
-  const recommendedResult = useGetRecommendedJobsQuery();
+  const recommendedResult = useGetRecommendedJobsQuery(recommendedParams ?? {});
   const savedResult = useGetSavedJobsQuery(savedParams ?? skipToken);
   const appliedResult = useGetAppliedJobsQuery(appliedParams ?? skipToken);
   const recentlyViewedResult = useGetRecentlyViewedQuery(recentParams ?? skipToken);
