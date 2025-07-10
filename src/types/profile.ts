@@ -4,13 +4,13 @@ export interface Profile {
     email: string;
     name: string;
     contact: string;
-    military_trade_id: number;
-    service_status_id: number;
+    military_trade: number;
+    service_status: number;
     service_start_date: string;
     service_end_date: string;
-    preferred_location_ids: number[];
-    work_role_ids: number[];
-    qualification_id: number;
+    preferred_locations: number[];
+    work_roles: number[];
+    qualification: number;
     aadhaar: string;
     pan: string;
     profile_pic_url: string;

@@ -10,11 +10,19 @@ import { Button, message } from "antd";
 import Image from "next/image";
 import { FaRegEdit } from "react-icons/fa";
 import ProfileEditModal from "@/components/sections/profile/ProfileEditModal";
+import { Option } from "@/components/form/SelectField";
 
 export default function Profile() {
   const { data: profile, isLoading, isError, refetch } = useGetProfileQuery();
   const [updateProfile, { isLoading: saving }] = useUpdateProfileMutation();
-  const { data: dd, isLoading: ddLoading } = useFetchDropdownsQuery();
+
+  const { data: dd = {
+    trades: [],
+    statuses: [],
+    locations: [],
+    roles: [],
+    quals: [],
+  }, isLoading: ddLoading } = useFetchDropdownsQuery();
 
   const [editVisible, setEditVisible] = useState(false);
 
@@ -24,7 +32,8 @@ export default function Profile() {
         <p>Loading your profile…</p>
       </DashboardLayout>
     );
-  }
+  } console.log({ profile });
+
   if (isError || !profile) {
     return (
       <DashboardLayout>
@@ -34,21 +43,22 @@ export default function Profile() {
   }
 
   // Destructure for display
-  const {
-    profile_pic_url,
-    name,
-    email,
-    contact,
-    aadhaar,
-    pan,
-    service_status_id,
-    preferred_location_ids,
-    work_role_ids,
-    qualification_id,
-    service_start_date,
-    service_end_date,
-    created_at,
-  } = profile;
+const {
+  profile_pic_url,
+  name,
+  email,
+  contact,
+  aadhaar,
+  pan,
+  military_trade,       // e.g. "Infantry"
+  service_status,       // e.g. "Complete Service"
+  preferred_locations,  // string[]
+  work_roles,           // string[]
+  qualification,        // string
+  service_start_date,   // ISO string
+  service_end_date,     // ISO string
+  created_at,           // ISO string
+} = profile || {};
 
   // Utilities for display
   const fmtDate = (iso: string) =>
@@ -61,32 +71,75 @@ export default function Profile() {
     val.length <= 4 ? val : "*".repeat(val.length - 4) + val.slice(-4);
 
   const userData = [
-    { id: 1, title: "Contact", value: contact, isPrivate: false },
-    { id: 2, title: "Aadhaar", value: aadhaar, isPrivate: true },
-    { id: 3, title: "PAN", value: pan, isPrivate: true },
-    { id: 4, title: "Service Status", value: service_status_id, isPrivate: false },
+    {
+      id: 1,
+      title: "Name",
+      value: name,
+      isPrivate: false,
+    },
+    {
+      id: 2,
+      title: "Email",
+      value: email,
+      isPrivate: false,
+    },
+    {
+      id: 3,
+      title: "Contact",
+      value: contact,
+      isPrivate: false,
+    },
+    {
+      id: 4,
+      title: "Aadhaar",
+      value: aadhaar,
+      isPrivate: true,
+    },
     {
       id: 5,
+      title: "PAN",
+      value: pan,
+      isPrivate: true,
+    },
+    {
+      id: 6,
+      title: "Military Trade",
+      value: military_trade,
+      isPrivate: false,
+    },
+    {
+      id: 7,
+      title: "Service Status",
+      value: service_status,
+      isPrivate: false,
+    },
+    {
+      id: 8,
       title: "Service Period",
       value: `${fmtDate(service_start_date)} – ${fmtDate(service_end_date)}`,
       fullWidth: true,
       isPrivate: false,
     },
     {
-      id: 6,
-      title: "Preferred Locations",
-      value: preferred_location_ids?.join(", ") || "—",
-      isPrivate: false,
-    },
-    {
-      id: 7,
-      title: "Work Roles",
-      value: work_role_ids?.join(", ") || "—",
-      isPrivate: false,
-    },
-    { id: 8, title: "Qualification", value: qualification_id, isPrivate: false },
-    {
       id: 9,
+      title: "Preferred Locations",
+      value: preferred_locations.join(", "),
+      isPrivate: false,
+    },
+    {
+      id: 10,
+      title: "Work Roles",
+      value: work_roles.join(", "),
+      isPrivate: false,
+    },
+    {
+      id: 11,
+      title: "Qualification",
+      value: qualification,
+      isPrivate: false,
+    },
+    {
+      id: 12,
       title: "Joined On",
       value: fmtDate(created_at),
       fullWidth: true,
@@ -108,32 +161,48 @@ export default function Profile() {
     contact,
     aadhaar,
     pan,
-    military_trade_id: profile.military_trade_id,
-    service_status_id,
-    preferred_location_ids,
-    work_role_ids,
-    qualification_id,
+    military_trade_id: profile.military_trade,
+    service_status,
+    preferred_locations,
+    work_roles,
+    qualification,
     profile_pic_url: profile_pic_url ?? AVATAR_FALLBACK,
   };
 
   // Handler when modal form is submitted
   const handleSave = async (values: any) => {
     const fd = new FormData();
-    Object.entries(values).forEach(([key, val]) => {
+
+    // only these keys get sent:
+    const allowed = [
+      "name",
+      "contact",
+      "military_trade_id",
+      "service_status_id",
+      "preferred_location_ids",
+      "work_role_ids",
+      "qualification_id",
+      "aadhaar",
+      "pan",
+      "profile_pic",
+    ];
+
+    allowed.forEach(key => {
+      const val = values[key];
       if (key === "profile_pic" && val) {
         fd.append(key, val as Blob);
       } else if (Array.isArray(val)) {
         fd.append(key, val.join(","));
-      } else {
-        fd.append(key, val as string);
+      } else if (val !== undefined && val !== null) {
+        fd.append(key, String(val));
       }
     });
 
     try {
       await updateProfile(fd).unwrap();
       message.success("Profile updated successfully!");
+      await refetch();
       setEditVisible(false);
-      refetch();
     } catch (err) {
       console.error(err);
       message.error("Failed to update profile. Please try again.");
@@ -165,7 +234,7 @@ export default function Profile() {
 
         {/* Profile Details */}
         <div className="grid grid-cols-2 gap-4 text-sm">
-          {userData.map(({ id, title, value, fullWidth, isPrivate }) => {
+          {userData?.map(({ id, title, value, fullWidth, isPrivate }) => {
             const display =
               isPrivate && typeof value === "string"
                 ? maskValue(value)
