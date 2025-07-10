@@ -26,10 +26,10 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => (
     {/* Right panel: occupies full width on <md, half on md+ */}
     <div className="w-full md:w-1/2 lg:w-1/2 h-screen p-12 relative bg-white overflow-auto">
       {/* Close icon */}
-      <FiX
+      {/* <FiX
         className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 cursor-pointer"
         size={20}
-      />
+      /> */}
 
       {/* Form container */}
       <div className="w-full max-w-md mx-auto mt-4">

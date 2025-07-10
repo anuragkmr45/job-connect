@@ -34,7 +34,7 @@ export function useAuth() {
   const [forgotTrigger, forgotResult] = useForgotPasswordMutation()
   const [changePassTrigger, changePassResult] = useChangePasswordMutation()
 
-  const sendOtp = useCallback(async (email: string, type: 'signup' | 'login') => {
+  const sendOtp = useCallback(async (email: string, type: 'signup' | 'forgot_password') => {
     const payload: SendOtpRequest = { email, type }
     return await sendOtpTrigger(payload).unwrap()
   }, [sendOtpTrigger])

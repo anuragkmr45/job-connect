@@ -2,7 +2,8 @@
 'use client';
 
 import { ReactNode, useEffect, useState } from 'react';
-import { redirect } from 'next/navigation';import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useRouter } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useGetProfileQuery } from '@/services/profileService';
 import Spinner from '../Spinner';
 import { clearAuth } from '@/store/authSlice';
@@ -10,6 +11,7 @@ import { clearAuth } from '@/store/authSlice';
 interface Props { children: ReactNode; }
 
 export default function ProtectedLayout({ children }: Props) {
+  const router = useRouter()
   const token = useAppSelector(s => s.auth.token);
   const [rehydrated, setRehydrated] = useState(false);
   const dispatch = useAppDispatch();
@@ -17,7 +19,7 @@ export default function ProtectedLayout({ children }: Props) {
   useEffect(() => { setRehydrated(true); }, []);
 
   useEffect(() => {
-    if (rehydrated && !token) redirect('/signin');
+    if (rehydrated && !token) router.replace('/signin');
   }, [rehydrated, token]);
 
   const { isLoading, error } = useGetProfileQuery(undefined, {
@@ -28,7 +30,7 @@ export default function ProtectedLayout({ children }: Props) {
   useEffect(() => {
     if (rehydrated && error && 'status' in error && error.status === 401) {
       dispatch(clearAuth());
-      redirect('/signin');
+      router.replace('/signin');
     }
   }, [error, rehydrated]);
 

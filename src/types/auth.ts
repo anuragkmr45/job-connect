@@ -1,5 +1,5 @@
 // types/auth.ts
-export interface SendOtpRequest { email: string; type: 'signup' | 'login' }
+export interface SendOtpRequest { email: string; type: 'signup' | 'forgot_password' }
 export interface SendOtpResponse { message: string }
 
 export interface VerifyOtpRequest { email: string; otp: string }

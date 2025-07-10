@@ -14,8 +14,9 @@ import type { Option } from '@/components/form/SelectField'
 import { FieldConfig } from '@/constants/FieldConfig'
 import { useAuth } from '@/hooks/useAuth'
 import { sendOtpSchema, signupSchema, verifyOtpSchema } from '@/schemas/authSchemas'
+import Link from 'next/link'
 
-const { Title } = Typography
+const { Title,Text } = Typography
 
 export default function SignUp() {
   const router = useRouter()
@@ -162,6 +163,16 @@ export default function SignUp() {
                 {buttonText}
               </Button>
             </Form.Item>
+
+            <div className="text-sm">
+              <Text>
+                Haveing an account?{' '}
+                <Link href="/signin" className="text-teal-700 font-semibold">
+                  Sign In
+                </Link>
+                .
+              </Text>
+            </div>
           </div>
         </Form>
       </div>
