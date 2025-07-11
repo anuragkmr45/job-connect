@@ -52,12 +52,20 @@ export const jobApi = createApi({
         searchJobs: builder.query<PaginatedJobsResponse, SearchParams>({
             query: (params) => ({
                 url: '/api/jobs/search',
-                params,
+                params: {
+                    page: params.page,
+                    pageSize: params.pageSize,
+                    q: params.q,
+                    trade: params.trade,
+                    where: params.location,
+                    salary_min: params.salary_min,
+                    salary_max: params.salary_max,
+                },
             }),
             transformResponse: (raw: any): PaginatedJobsResponse => ({
                 count: raw.count,
                 page: raw.page,
-                pageSize: raw.pageSize,
+                pageSize: raw.results_per_page,
                 jobs: raw.jobs.map(mapJob),
             }),
             providesTags: ['Jobs'],

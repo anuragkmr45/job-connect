@@ -16,10 +16,10 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => (
         <h1 className="mt-4 text-3xl font-bold">JobConnect</h1>
       </div>
       <p className="text-base leading-relaxed">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Voluptatum
+        {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Voluptatum
         beatae ratione, possimus laborum officiis asperiores incidunt facere
         atque neque veritatis provident vitae saepe a itaque sint voluptatem
-        quos ipsam quia.
+        quos ipsam quia. */}
       </p>
     </div>
 

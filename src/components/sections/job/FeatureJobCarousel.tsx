@@ -44,7 +44,7 @@ export default function FeatureJobCarousel({ featuredJobs }: FeatureJobCarouselP
             {/* Carousel itself */}
             <CustomCarousel
                 ref={sliderRef}          // 🔗 gives our buttons control
-                slidesToShow={2}
+                slidesToShow={3}
                 arrows={false}           // hide built-ins → we’re using custom ones
                 dots={false}
                 infinite

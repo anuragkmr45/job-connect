@@ -1,33 +1,75 @@
-"use client"
-import JobListingCard from "@/components/cards/JobListingCard";
-import JobSearchFiltersCard from "@/components/cards/JobSearchFiltersCard";
-import CustomCarousel from "@/components/CustomCarousel";
-import DashboardLayout from "@/components/layouts/DashboardLayout";
-import FeatureJobCarousel from "@/components/sections/search-job/FeatureJobCarousel";
-import { useJobs } from "@/hooks/useJobs";
-import { RecommendedJobsResponse } from "@/types/job";
+'use client'
 
-export default function Searchjobs() {
+import React, { useState } from 'react';
+import JobSearchFiltersCard from '@/components/cards/JobSearchFiltersCard';
+import DashboardLayout from '@/components/layouts/DashboardLayout';
+import FeatureJobCarousel from '@/components/sections/job/FeatureJobCarousel';
+import { useJobs } from '@/hooks/useJobs';
+import type { Option } from '@/components/form/SelectField';
+import JobListingCard from '@/components/cards/JobListingCard';
+import Spinner from '@/components/Spinner';
 
-  const { recommendedResult } = useJobs();
+export default function SearchJobs() {
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [filters, setFilters] = useState<
+    Record<'location' | 'trade' | 'role' | 'qual' | 'status', Option | null>
+  >({
+    location: null,
+    trade: null,
+    role: null,
+    qual: null,
+    status: null,
+  });
 
   const {
-    currentData: {
-      jobs: featuredJobs = []
-    } = {}
-  } = recommendedResult || {};
+    // the raw lists
+    searchData,
+    recommendedData,
+    savedData,
+    appliedData,
+    recentData,
+    summaryData,
+
+    // loading flags
+    isSearchLoading,
+    isRecLoading,
+    isSavedLoading,
+    isAppliedLoading,
+    isRecentLoading,
+    isSummaryLoading,
+  } = useJobs(
+    searchValue,
+    filters,
+    { page: 1, pageSize: 20 },
+    { page: 1, pageSize: 10 }
+  )
+
+  const featuredJobs = recommendedData?.jobs ?? []
+  const searchJobs = searchData?.jobs ?? []
+
+  if (isRecentLoading || isSavedLoading || isSearchLoading || isAppliedLoading || isRecLoading || isSummaryLoading) {
+    return (
+      <DashboardLayout><Spinner /></DashboardLayout>
+    )
+  }
 
   return (
     <DashboardLayout>
-      <div className="grid grid-cols-6 gap-2">
-        <section className="col-span-4 space-y-7  h-full overflow-y-auto pr-4">
-          <JobSearchFiltersCard />
-          <FeatureJobCarousel featuredJobs={featuredJobs} />
-          {/* <JobListingCard /> */}
-        </section>
-        <aside className="col-span-2">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa ullam aliquam quis possimus expedita, nihil obcaecati est explicabo eaque reprehenderit totam animi vel maiores corrupti distinctio, culpa deserunt ex ea.
-        </aside></div>
+      <section className="col-span-6 space-y-7 h-full overflow-y-auto pr-4">
+        <JobSearchFiltersCard
+          searchQuery={searchValue}
+          setSearchQuery={setSearchValue}
+          filters={filters}
+          setFilters={setFilters}
+        />
 
-    </DashboardLayout >
+        <FeatureJobCarousel featuredJobs={featuredJobs} />
+        {searchJobs.map((job) => {
+          return (
+            <JobListingCard key={job.id} data={job} />
+          )
+        })}
+      </section>
+    </DashboardLayout>
   );
 }

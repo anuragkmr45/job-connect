@@ -41,8 +41,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
             onCancel={onClose}
             footer={null}
             width={width}
-            style={height ? { top: 20 } : undefined}
-            bodyStyle={bodyStyle}
+            style={height ? { top: 20 } : bodyStyle}
             closable
             maskClosable={false}
         >
