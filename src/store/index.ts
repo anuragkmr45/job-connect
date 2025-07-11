@@ -10,6 +10,7 @@ import { authApi } from '@/services/authService';
 import { dropdownApi } from '@/services/dropdownService';
 import { profileApi } from '@/services/profileService';
 import { healthApi } from '@/services/healthService';
+import { jobApi } from '@/services/jobService';
 
 
 const rootReducer = combineReducers({
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [dropdownApi.reducerPath]: dropdownApi.reducer,
   [profileApi.reducerPath]: profileApi.reducer,
-  [healthApi.reducerPath]: healthApi.reducer
+  [healthApi.reducerPath]: healthApi.reducer,
+  [jobApi.reducerPath]: jobApi.reducer
 });
 
 const persistConfig = {
@@ -39,7 +41,8 @@ export const store = configureStore({
       authApi.middleware,
       dropdownApi.middleware,
       profileApi.middleware,
-      healthApi.middleware
+      healthApi.middleware,
+      jobApi.middleware
     )
 });
 
