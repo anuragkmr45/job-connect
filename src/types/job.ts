@@ -40,6 +40,7 @@ export interface PaginationParams {
 export interface SearchParams extends PaginationParams {
   q?: string | number;
   location?: string | number;
+  trade?: string | number;
   salary_min?: number;
   salary_max?: number;
 }
