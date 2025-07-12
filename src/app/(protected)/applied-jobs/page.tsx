@@ -59,12 +59,12 @@ export default function Appliedjobs() {
           })
         }
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 gap-2 mt-8">
         <aside className="col-span-4">
-          <h2>Your Applications</h2>
+          <h2 className="text-2xl text=[#1E293B] font-semibold">Your Applications ({appliedJobCount})</h2>
           {appliedJobs.map((job) => {
             return (
-              <div className="my-3"><AppliedJobCard key={job.id} jobData={job} /></div>
+              <div className="my-3" key={job.id} ><AppliedJobCard jobData={job} /></div>
             )
           })}
         </aside>

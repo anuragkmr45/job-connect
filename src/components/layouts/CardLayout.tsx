@@ -12,6 +12,7 @@ export interface CardLayoutProps {
     bordered?: boolean
     hoverable?: boolean
     style?: React.CSSProperties
+    cardBg?: string
 }
 
 const ELEVATION: Record<Elevation, string> = {
@@ -32,14 +33,16 @@ export default function CardLayout({
     bordered = false,
     hoverable = false,
     style,
+    cardBg,
 }: CardLayoutProps) {
     return (
         <div
             className={`
-        bg-white rounded-lg overflow-hidden
+        rounded-lg overflow-hidden
         ${ELEVATION[elevation]}
         ${bordered ? 'border border-gray-200' : ''}
         ${hoverable ? 'hover:shadow-xl transition-shadow duration-200' : ''}
+        ${cardBg ? cardBg : 'bg-white'}
         ${className}
       `}
             style={style}

@@ -1,165 +1,3 @@
-
-// 'use client'
-
-// import React, { useState } from 'react'
-// import { Tag, Button, Form } from 'antd'
-// import { FiMapPin, FiUser, FiBriefcase } from 'react-icons/fi'
-// import CardLayout from '@/components/layouts/CardLayout'
-// import SearchBar from '@/components/form/SearchBar'
-// import SelectField, { Option } from '@/components/form/SelectField'
-// import CustomModal from '@/components/CustomModal'
-// import { useFetchDropdownsQuery } from '@/services/dropdownService'
-
-// const quickFilters = [
-//     'Remote Jobs', 'Security Roles', 'Manager Roles', 'Admin Roles', 'Startups',
-//     'Leadership Positions', 'Entry Level', 'Bhubaneswar', 'Banking', 'Experienced',
-//     'Government Contracts', 'Private Contracts', 'Mumbai', 'Hyderabad',
-// ]
-
-// type ModalKey = 'location' | 'trade' | 'role' | 'qual' | 'status'
-
-// interface JobSearchFiltersCardProps {
-//   searchQuery: string
-//   setSearchQuery: (q: string) => void
-// }
-
-// export default function JobSearchFiltersCard({ searchQuery, setSearchQuery }: JobSearchFiltersCardProps) {
-//     // ─── 1) Always call hooks at top ───────────────────────────────────────
-//     const [activeModal, setActiveModal] = useState<ModalKey | null>(null)
-//     const [selected, setSelected] = useState<Record<ModalKey, Option | null>>({
-//         location: null,
-//         trade: null,
-//         role: null,
-//         qual: null,
-//         status: null,
-//     })
-//     const [form] = Form.useForm<{ modalSelect: number | string }>()
-//     const { data: dd, isLoading, error } = useFetchDropdownsQuery()
-
-//     // ─── 2) Safely map dropdowns (use empty arrays if dd is undefined) ───
-//     const {
-//         trades = [],
-//         statuses = [],
-//         locations = [],
-//         roles = [],
-//         quals = [],
-//     } = dd ?? {}
-
-//     const locationOpts: Option[] = locations.map(l => ({ value: l.id, label: l.name }))
-//     const tradeOpts: Option[] = trades.map(t => ({ value: t.id, label: t.name }))
-//     const roleOpts: Option[] = roles.map(r => ({ value: r.id, label: r.name }))
-//     const qualOpts: Option[] = quals.map(q => ({ value: q.id, label: `${q.level} – ${q.stream}` }))
-//     const statusOpts: Option[] = statuses.map(s => ({ value: s.id, label: s.name }))
-
-//     // ─── 3) Now it’s safe to bail out ─────────────────────────────────────
-//     if (isLoading) {
-//         return <CardLayout elevation="sm" className="mx-auto p-6">Loading filters…</CardLayout>
-//     }
-//     if (error) {
-//         return <CardLayout elevation="sm" className="mx-auto p-6">Error loading filters</CardLayout>
-//     }
-
-//     // ─── 4) Handlers & modal data ─────────────────────────────────────────
-//     const openModal = (key: ModalKey) => {
-//         setActiveModal(key)
-//         form.setFieldsValue({ modalSelect: selected[key]?.value })
-//     }
-//     const closeModal = () => setActiveModal(null)
-
-//     const handleSave = async () => {
-//         const { modalSelect } = await form.validateFields()
-//         const optsMap: Record<ModalKey, Option[]> = {
-//             location: locationOpts,
-//             trade: tradeOpts,
-//             role: roleOpts,
-//             qual: qualOpts,
-//             status: statusOpts,
-//         }
-//         const choice = optsMap[activeModal!].find(o => o.value === modalSelect) ?? null
-//         if (activeModal) {
-//             setSelected(prev => ({ ...prev, [activeModal]: choice }))
-//             if (choice) setSearchQuery(choice.label)
-//         }
-//         closeModal()
-//     }
-
-//     const modalTitles: Record<ModalKey, string> = {
-//         location: 'Select Location',
-//         trade: 'Select Experience',
-//         role: 'Select Role Type',
-//         qual: 'Select Qualification',
-//         status: 'Select Status',
-//     }
-
-//     // ─── 5) Render ─────────────────────────────────────────────────────────
-//     return (
-//         <>
-//             <CardLayout elevation="sm" className="mx-auto">
-//                 {/* Main search bar */}
-//                 <SearchBar
-//                     placeholder="Search for roles or companies…"
-//                     defaultValue={searchQuery}
-//                     onSearch={v => setSearchQuery(v)}
-//                     enterButton="Go"
-//                     size="middle"
-//                     className="w-full"
-//                 />
-
-//                 {/* Filter buttons */}
-//                 <div className="mt-4 flex flex-wrap gap-2">
-//                     <Button icon={<FiMapPin />} shape="round" onClick={() => openModal('location')}>
-//                         {selected.location?.label || 'Location'}
-//                     </Button>
-//                     <Button icon={<FiUser />} shape="round" onClick={() => openModal('trade')}>
-//                         {selected.trade?.label || 'Experience'}
-//                     </Button>
-//                     <Button icon={<FiBriefcase />} shape="round" onClick={() => openModal('role')}>
-//                         {selected.role?.label || 'Role Type'}
-//                     </Button>
-//                     <Button icon={<FiBriefcase />} shape="round" onClick={() => openModal('qual')}>
-//                         {selected.qual?.label || 'Qualification'}
-//                     </Button>
-//                     <Button icon={<FiBriefcase />} shape="round" onClick={() => openModal('status')}>
-//                         {selected.status?.label || 'Status'}
-//                     </Button>
-//                 </div>
-
-//                 {/* Quick filters */}
-//                 <div className="mt-6">
-//                     <div className="text-sm font-medium mb-2">Quick Filters:</div>
-//                     <div className="flex flex-wrap gap-2">
-//                         {quickFilters.map(f => (
-//                             <Tag key={f} color="default" className="cursor-pointer">
-//                                 {f}
-//                             </Tag>
-//                         ))}
-//                     </div>
-//                 </div>
-//             </CardLayout>
-
-//             {/* Reusable modal */}
-//             <CustomModal
-//                 visible={!!activeModal}
-//                 onClose={closeModal}
-//                 width="40%"
-//                 height="300px"
-//                 header={<h4 className="text-lg font-semibold">{activeModal && modalTitles[activeModal]}</h4>}
-//                 footer={<Button type="primary" onClick={handleSave}>Save</Button>}
-//             >
-//                 <Form form={form} layout="vertical" initialValues={{ modalSelect: null }}>
-//                     <SelectField
-//                         name="modalSelect"
-//                         label=""
-//                         options={activeModal ? { location: locationOpts, trade: tradeOpts, role: roleOpts, qual: qualOpts, status: statusOpts }[activeModal] : []}
-//                         placeholder="Start typing to search…"
-//                         rules={[{ required: true, message: 'Please select one' }]}
-//                     />
-//                 </Form>
-//             </CustomModal>
-//         </>
-//     )
-// }
-
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -294,7 +132,7 @@ export default function JobSearchFiltersCard({
                     defaultValue={searchQuery}
                     onSearch={v => setSearchQuery(v)}
                     enterButton="Go"
-                    size="middle"
+                    size="large"
                     className="w-full"
                 />
 
@@ -329,7 +167,7 @@ export default function JobSearchFiltersCard({
                 </div>
 
                 {/* quick filters (unchanged) */}
-                <div className="mt-6">
+                {/* <div className="mt-6">
                     <div className="text-sm font-medium mb-2">Quick Filters:</div>
                     <div className="flex flex-wrap gap-2">
                         {quickFilters.map(f => (
@@ -338,7 +176,7 @@ export default function JobSearchFiltersCard({
                             </Tag>
                         ))}
                     </div>
-                </div>
+                </div> */}
             </CardLayout>
 
             {/* selection modal */}
