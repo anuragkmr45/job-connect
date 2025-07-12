@@ -25,18 +25,18 @@ export default function SearchJobs() {
     // the raw lists
     searchData,
     recommendedData,
-    savedData,
-    appliedData,
-    recentData,
-    summaryData,
+    // savedData,
+    // appliedData,
+    // recentData,
+    // summaryData,
 
     // loading flags
     isSearchLoading,
     isRecLoading,
-    isSavedLoading,
-    isAppliedLoading,
-    isRecentLoading,
-    isSummaryLoading,
+    // isSavedLoading,
+    // isAppliedLoading,
+    // isRecentLoading,
+    // isSummaryLoading,
   } = useJobs(
     searchValue,
     filters,
@@ -46,8 +46,9 @@ export default function SearchJobs() {
 
   const featuredJobs = recommendedData?.jobs ?? []
   const searchJobs = searchData?.jobs ?? []
+  const searchCount = (searchData?.jobs ?? []).length || 0
 
-  if (isRecentLoading || isSavedLoading || isSearchLoading || isAppliedLoading || isRecLoading || isSummaryLoading) {
+  if (isSearchLoading || isRecLoading) {
     return (
       <DashboardLayout><Spinner /></DashboardLayout>
     )
@@ -62,9 +63,15 @@ export default function SearchJobs() {
           filters={filters}
           setFilters={setFilters}
         />
+        {
+          !isRecLoading && (
+            <FeatureJobCarousel featuredJobs={featuredJobs} cardBg='bg-[#FEF08A]' />
+          )
+        }
 
-        <FeatureJobCarousel featuredJobs={featuredJobs} />
-        {searchJobs.map((job) => {
+        <h2 className="text-2xl text=[#1E293B] font-semibold">Search Result ({searchCount})</h2>
+
+        {isSearchLoading ? <Spinner title='Searching ...' /> : searchJobs.map((job) => {
           return (
             <JobListingCard key={job.id} data={job} />
           )

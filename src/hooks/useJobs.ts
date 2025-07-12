@@ -41,11 +41,11 @@ export const useJobs = (
 
   // build search params
   const searchParams: SearchParams = {
-    page: pageParams.page,
-    pageSize: pageParams.pageSize,
-    q: searchValue || undefined,
-    location: filters.location?.value as string | number | undefined,
-    trade: filters.trade?.value as string | number | undefined,
+    page: pageParams?.page || 1,
+    pageSize: pageParams?.pageSize || 10,
+    q: searchValue || "",
+    location: filters?.location?.value as string | number || 0 ,
+    trade: filters?.trade?.value as string | number ||  0,
   };
 
   // search
