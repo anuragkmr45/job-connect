@@ -78,6 +78,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
+        // form.setFieldValue({profile_pic: file});
         form.setFieldValue("profile_pic", file);
         setPreview(URL.createObjectURL(file));
     };
