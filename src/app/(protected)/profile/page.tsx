@@ -7,13 +7,16 @@ import { AVATAR_FALLBACK } from "@/constants/app.constanst";
 import { useGetProfileQuery, useUpdateProfileMutation } from "@/services/profileService";
 import { useFetchDropdownsQuery } from "@/services/dropdownService";
 import { Button, message } from "antd";
-import Image from "next/image";
-import { FaRegEdit } from "react-icons/fa";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import ProfileEditModal from "@/components/sections/profile/ProfileEditModal";
 import { Option } from "@/components/form/SelectField";
+import ProfileCompletionCard from "@/components/cards/ProfileCompletionCard";
+import CardLayout from "@/components/layouts/CardLayout";
+import ContactCard from "@/components/cards/ContactCard";
+import PreferencesCard from "@/components/cards/PreferencesCard";
 
 export default function Profile() {
-  const { data: profile, isLoading, isError, refetch } = useGetProfileQuery();
+  const { data: profile, isLoading: loadingProfile, isError, refetch } = useGetProfileQuery();
   const [updateProfile, { isLoading: saving }] = useUpdateProfileMutation();
 
   const { data: dd = {
@@ -25,14 +28,15 @@ export default function Profile() {
   }, isLoading: ddLoading } = useFetchDropdownsQuery();
 
   const [editVisible, setEditVisible] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
-  if (isLoading || ddLoading) {
+  if (loadingProfile || ddLoading) {
     return (
       <DashboardLayout>
         <p>Loading your profile…</p>
       </DashboardLayout>
     );
-  } console.log({ profile });
+  }
 
   if (isError || !profile) {
     return (
@@ -43,22 +47,22 @@ export default function Profile() {
   }
 
   // Destructure for display
-const {
-  profile_pic_url,
-  name,
-  email,
-  contact,
-  aadhaar,
-  pan,
-  military_trade,       // e.g. "Infantry"
-  service_status,       // e.g. "Complete Service"
-  preferred_locations,  // string[]
-  work_roles,           // string[]
-  qualification,        // string
-  service_start_date,   // ISO string
-  service_end_date,     // ISO string
-  created_at,           // ISO string
-} = profile || {};
+  const {
+    profile_pic_url,
+    name,
+    email,
+    contact,
+    aadhaar,
+    pan,
+    military_trade,       // e.g. "Infantry"
+    service_status,       // e.g. "Complete Service"
+    preferred_locations,  // string[]
+    work_roles,           // string[]
+    qualification,        // string
+    service_start_date,   // ISO string
+    service_end_date,     // ISO string
+    created_at,           // ISO string
+  } = profile || {};
 
   // Utilities for display
   const fmtDate = (iso: string) =>
@@ -71,24 +75,6 @@ const {
     val.length <= 4 ? val : "*".repeat(val.length - 4) + val.slice(-4);
 
   const userData = [
-    {
-      id: 1,
-      title: "Name",
-      value: name,
-      isPrivate: false,
-    },
-    {
-      id: 2,
-      title: "Email",
-      value: email,
-      isPrivate: false,
-    },
-    {
-      id: 3,
-      title: "Contact",
-      value: contact,
-      isPrivate: false,
-    },
     {
       id: 4,
       title: "Aadhaar",
@@ -117,7 +103,6 @@ const {
       id: 8,
       title: "Service Period",
       value: `${fmtDate(service_start_date)} – ${fmtDate(service_end_date)}`,
-      fullWidth: true,
       isPrivate: false,
     },
     {
@@ -142,7 +127,6 @@ const {
       id: 12,
       title: "Joined On",
       value: fmtDate(created_at),
-      fullWidth: true,
       isPrivate: false,
     },
   ];
@@ -170,33 +154,76 @@ const {
   };
 
   // Handler when modal form is submitted
+  // const handleSave = async (values: any) => {
+  //   const fd = new FormData();
+
+  //   // only these keys get sent:
+  //   const allowed = [
+  //     "name",
+  //     "contact",
+  //     "military_trade_id",
+  //     "service_status_id",
+  //     "preferred_location_ids",
+  //     "work_role_ids",
+  //     "qualification_id",
+  //     "aadhaar",
+  //     "pan",
+  //     "profile_pic",
+  //   ];
+
+  //   allowed.forEach(key => {
+  //     const val = values[key];
+  //     if (key === "profile_pic" && val) {
+  //       console.log({ key, val });
+
+  //       fd.append(key, val as Blob);
+  //     } else if (Array.isArray(val)) {
+  //       fd.append(key, val.join(","));
+  //     } else if (val !== undefined && val !== null) {
+  //       fd.append(key, String(val));
+  //     }
+  //   });
+
+  //   try {
+  //     await updateProfile(fd).unwrap();
+  //     message.success("Profile updated successfully!");
+  //     await refetch();
+  //     setEditVisible(false);
+  //   } catch (err) {
+  //     console.error(err);
+  //     message.error("Failed to update profile. Please try again.");
+  //   }
+  // };
+  const allowedKeys = [
+    "name",
+    "contact",
+    "military_trade_id",
+    "service_status_id",
+    "preferred_location_ids",
+    "work_role_ids",
+    "qualification_id",
+    "aadhaar",
+    "pan",
+    "profile_pic",
+  ];
+
   const handleSave = async (values: any) => {
     const fd = new FormData();
-
-    // only these keys get sent:
-    const allowed = [
-      "name",
-      "contact",
-      "military_trade_id",
-      "service_status_id",
-      "preferred_location_ids",
-      "work_role_ids",
-      "qualification_id",
-      "aadhaar",
-      "pan",
-      "profile_pic",
-    ];
-
-    allowed.forEach(key => {
+    allowedKeys.forEach(key => {
       const val = values[key];
       if (key === "profile_pic" && val) {
         fd.append(key, val as Blob);
       } else if (Array.isArray(val)) {
         fd.append(key, val.join(","));
-      } else if (val !== undefined && val !== null) {
+      } else if (val != null) {
         fd.append(key, String(val));
       }
     });
+
+    // 🔍 for each entry, make sure profile_pic shows up in your console
+    for (let [k, v] of fd.entries()) {
+      console.log(k, v);
+    }
 
     try {
       await updateProfile(fd).unwrap();
@@ -211,49 +238,60 @@ const {
 
   return (
     <DashboardLayout>
-      <div className="mx-auto space-y-6 p-6 bg-white rounded-lg shadow">
-        {/* Avatar + Name/Email/Edit Button */}
-        <div className="flex items-center space-x-4">
-          <Image
-            src={profile_pic_url || AVATAR_FALLBACK}
-            alt={name}
-            width={120}
-            height={120}
-            className="rounded-full"
-          />
-          <div className="flex justify-between items-center w-full">
-            <div>
-              <h1 className="text-2xl font-semibold">{name}</h1>
-              <p className="text-gray-500">{email}</p>
-            </div>
-            <Button onClick={() => setEditVisible(true)} type="default">
-              <FaRegEdit />
-            </Button>
-          </div>
-        </div>
+      <div className="grid grid-cols-6 gap-2 h-full min-h-0">
+        <div className="col-span-4 space-y-6 pr-4">
+          {!loadingProfile && <ProfileCompletionCard avatarImg={profile_pic_url ?? AVATAR_FALLBACK} email={email ?? ""} username={name ?? ""} trade={military_trade ?? ""} serviceStart={service_start_date ?? 0} serviceEnd={service_end_date ?? 0} />}
+          <ContactCard email={email ?? ""} location="" phone={contact ?? 0} editProfile={() => setEditVisible(true)} />
 
-        {/* Profile Details */}
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          {userData?.map(({ id, title, value, fullWidth, isPrivate }) => {
-            const display =
-              isPrivate && typeof value === "string"
-                ? maskValue(value)
-                : value;
-            return (
-              <div
-                key={id}
-                className={`flex space-x-2 rounded-xl ${fullWidth ? "col-span-2" : ""
-                  }`}
-              >
-                <h3 className="font-medium bg-gray-200 rounded-tl-xl rounded-bl-xl px-3 py-2">
-                  {title}
-                </h3>
-                <span className="px-3 py-2 rounded-tr-xl rounded-br-xl">
-                  {display}
-                </span>
+          <CardLayout
+            header={
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-900">More Detail</h3>
+                <Button
+                  onClick={() => setDetailsOpen(o => !o)}
+                  aria-label={detailsOpen ? "Collapse details" : "Expand details"}
+                  className="p-1 hover:bg-gray-100 rounded"
+                >
+                  {detailsOpen ? <FaChevronUp /> : <FaChevronDown />}
+                </Button>
               </div>
-            );
-          })}
+            }
+          >
+            <div
+              className={`
+      overflow-hidden transition-[max-height] duration-300
+      ${detailsOpen ? 'max-h-96' : 'max-h-0'}
+    `}
+            >
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                {userData?.map(({ id, title, value, isPrivate }) => {
+                  const display =
+                    isPrivate && typeof value === "string"
+                      ? maskValue(value)
+                      : value;
+                  return (
+                    <div
+                      key={id}
+                      className="flex space-x-2 rounded-xl col-span-2"
+                    >
+                      <h3 className="font-medium bg-gray-200 rounded-tl-xl rounded-bl-xl px-3 py-2">
+                        {title}
+                      </h3>
+                      <span className="px-3 py-2 rounded-tr-xl rounded-br-xl">
+                        {display}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </CardLayout>
+
+        </div>
+        <div className="col-span-2 self-start">
+          <div className="sticky top-6">
+            <PreferencesCard />
+          </div>
         </div>
       </div>
 
