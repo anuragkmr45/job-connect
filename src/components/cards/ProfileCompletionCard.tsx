@@ -7,6 +7,7 @@ import CardLayout from '@/components/layouts/CardLayout'
 import { calculateYearsServed } from '@/utils/calculateYearsServed';
 
 interface ProfileCompletionCardPrope {
+    cardBg?: string
     avatarImg: string,
     email: string,
     username: string,
@@ -15,7 +16,7 @@ interface ProfileCompletionCardPrope {
     serviceEnd: string | number
 }
 
-export default function ProfileCompletionCard({ avatarImg, email, username, trade, serviceStart, serviceEnd }: ProfileCompletionCardPrope) {
+export default function ProfileCompletionCard({ cardBg, avatarImg, email, username, trade, serviceStart, serviceEnd }: ProfileCompletionCardPrope) {
     const percent = 75
 
     const yearsServed = calculateYearsServed(serviceStart, serviceEnd);
@@ -41,7 +42,7 @@ export default function ProfileCompletionCard({ avatarImg, email, username, trad
             hoverable={false}
             className="text-white"
             style={{ borderRadius: '1rem' }}
-            cardBg='bg-[#334155]'
+            cardBg={cardBg ?? 'bg-[#334155]'}
         >
             <div className='flex justify-between align-middle w-full'>
                 <div className='w-full'>

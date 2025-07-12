@@ -11,6 +11,7 @@ import { dropdownApi } from '@/services/dropdownService';
 import { profileApi } from '@/services/profileService';
 import { healthApi } from '@/services/healthService';
 import { jobApi } from '@/services/jobService';
+import { chatApi } from '@/services/chatService';
 
 
 const rootReducer = combineReducers({
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   [dropdownApi.reducerPath]: dropdownApi.reducer,
   [profileApi.reducerPath]: profileApi.reducer,
   [healthApi.reducerPath]: healthApi.reducer,
-  [jobApi.reducerPath]: jobApi.reducer
+  [jobApi.reducerPath]: jobApi.reducer,
+  [chatApi.reducerPath]: chatApi.reducer,
 });
 
 const persistConfig = {
@@ -42,10 +44,11 @@ export const store = configureStore({
       dropdownApi.middleware,
       profileApi.middleware,
       healthApi.middleware,
-      jobApi.middleware
+      jobApi.middleware,
+      chatApi.middleware, 
     )
 });
 
 export const persistor = persistStore(store);
-export type RootState  = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

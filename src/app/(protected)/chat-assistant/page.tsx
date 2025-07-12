@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import React from 'react'
-import DashboardLayout from '@/components/layouts/DashboardLayout'
-import CustomCarousel from '@/components/CustomCarousel'
-import { Input } from 'antd'
+import React, { useState, useEffect } from 'react';
+import DashboardLayout from '@/components/layouts/DashboardLayout';
+import CustomCarousel from '@/components/CustomCarousel';
+import { Input, Button } from 'antd';
 import {
   HiSearch,
   HiOutlineUserCircle,
@@ -11,103 +11,152 @@ import {
   HiCalendar,
   HiOutlineDownload,
   HiChat,
-} from 'react-icons/hi'
-import CardLayout from '@/components/layouts/CardLayout'
+} from 'react-icons/hi';
+import CardLayout from '@/components/layouts/CardLayout';
+import { useChat } from '@/hooks/useChat';
 
-const messages = [
-  {
-    from: 'bot' as const,
-    text: `Welcome to your AI Career Assistant! I’m standing by to help with your mission objectives. How can I assist you today?`,
-    time: '11:23 PM',
-  },
-  // add more messages here as needed…
-]
+type Message = {
+  from: 'bot' | 'user';
+  text: string;
+  time: string;
+};
 
-const quickActions = [
-  'Find jobs near me',
-  'Show saved jobs',
-  'Update my profile',
-  'Download applications',
-  'Show interview schedule',
-  'Check application status',
-  'Career guidance',
-].map((label) => ({ label }))
+export default function ChatAssistant() {
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      from: 'bot',
+      text: `Welcome to your AI Career Assistant! I’m standing by to help with your mission objectives. How can I assist you today?`,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    },
+  ]);
+  const [input, setInput] = useState('');
+  const { send, chatResponse, isLoading, isError } = useChat();
 
-const helpItems = [
-  { icon: HiSearch, text: 'Job Recommendations' },
-  { icon: HiOutlineUserCircle, text: 'Profile Analysis' },
-  { icon: HiClipboardList, text: 'Application Status' },
-  { icon: HiCalendar, text: 'Interview Scheduling' },
-  { icon: HiOutlineDownload, text: 'Document Export' },
-  { icon: HiChat, text: 'Career Guidance' },
-]
+  // When a new chatResponse arrives, append it as a bot message
+  useEffect(() => {
+    if (!chatResponse) return;
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    setMessages((msgs) => [
+      ...msgs,
+      { from: 'bot', text: chatResponse.reply, time },
+      // if jobs are returned, render them as additional text
+      ...(chatResponse.jobs?.length
+        ? chatResponse.jobs.map((job) => ({
+          from: 'bot' as const,
+          text: `• ${job.title} at ${job.company.display_name} (${job.location.display_name})`,
+          time,
+        }))
+        : []),
+    ]);
+  }, [chatResponse]);
 
-const recentConvos = [
-  { title: 'Job search strategy', time: 'Today, 2:30 PM' },
-  { title: 'Resume optimization', time: 'Yesterday, 4:15 PM' },
-  { title: 'Interview preparation', time: 'Dec 26, 1:20 PM' },
-]
+  const handleSend = async () => {
+    const text = input.trim();
+    if (!text) return;
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-export default function Chatassistant() {
+    // append user message
+    setMessages((msgs) => [...msgs, { from: 'user', text, time }]);
+    setInput('');
+
+    try {
+      await send(text);
+    } catch {
+      // on error, append an error message
+      setMessages((msgs) => [
+        ...msgs,
+        {
+          from: 'bot',
+          text: 'Sorry, something went wrong. Please try again.',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        },
+      ]);
+    }
+  };
+
+  const { Search } = Input;
+
+  const quickActions = [
+    'Find jobs near me',
+    'Show saved jobs',
+    'Update my profile',
+    'Download applications',
+    'Show interview schedule',
+    'Check application status',
+    'Career guidance',
+  ].map((label) => ({ label }));
+
+  const helpItems = [
+    { icon: HiSearch, text: 'Job Recommendations' },
+    { icon: HiOutlineUserCircle, text: 'Profile Analysis' },
+    { icon: HiClipboardList, text: 'Application Status' },
+    { icon: HiCalendar, text: 'Interview Scheduling' },
+    { icon: HiOutlineDownload, text: 'Document Export' },
+    { icon: HiChat, text: 'Career Guidance' },
+  ];
+
   return (
     <DashboardLayout>
       <div className="bg-gray-100 grid grid-cols-6 gap-4">
         {/* ── Chat Column ─────────────────────────────────────────── */}
         <div className="flex-1 flex flex-col col-span-4">
-          <CardLayout bordered className="flex-1 flex flex-col justify-between h-screen">
+          <CardLayout bordered className="flex-1 flex flex-col justify-between h-full">
             {/* Chat messages */}
-            <div className="overflow-auto space-y-4">
+            <div className="flex-1 overflow-auto space-y-4 px-6 py-4">
               {messages.map((m, i) => (
                 <div
                   key={i}
-                  className={`flex ${m.from === 'bot' ? 'justify-start' : 'justify-end'
-                    }`}
+                  className={`flex ${m.from === 'bot' ? 'justify-start' : 'justify-end'}`}
                 >
                   <div
                     className={`max-w-xs px-4 py-2 rounded-lg ${m.from === 'bot'
-                        ? 'bg-gray-200 text-gray-800'
-                        : 'bg-blue-600 text-white'
+                      ? 'bg-gray-200 text-gray-800'
+                      : 'bg-blue-600 text-white'
                       }`}
                   >
                     <p>{m.text}</p>
-                    <p className="text-xs text-gray-500 mt-1 text-right">
-                      {m.time}
-                    </p>
+                    <p className="text-xs text-gray-500 mt-1 text-right">{m.time}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className=''>
+            {/* Quick-action carousel */}
+            <div className="px-6">
+              <CustomCarousel
+                slidesToShow={4}
+                arrows
+                arrowPosition="center-right"
+                className="py-2"
+              >
+                {quickActions.map((act) => (
+                  <button
+                    key={act.label}
+                    onClick={() => {
+                      setInput(act.label);
+                      void handleSend();
+                    }}
+                    className="mx-2 px-4 py-2 bg-white border rounded-full hover:bg-gray-50 text-xs whitespace-nowrap"
+                  >
+                    <span className="text-xs">{act.label}</span>
+                  </button>
+                ))}
+              </CustomCarousel>
+            </div>
 
-              {/* Quick-action carousel */}
-              <div className="px-6">
-                <CustomCarousel
-                  slidesToShow={4}
-                  arrows
-                  arrowPosition="center-right"
-                  className="py-2"
-                >
-                  {quickActions.map((act) => (
-                    <button
-                      key={act.label}
-                      onClick={() => { }}
-                      className="mx-2 px-4 py-2 bg-white border rounded-full hover:bg-gray-50 text-xs whitespace-nowrap"
-                    >
-                      <span className='text-xs'>{act.label}</span>
-                    </button>
-                  ))}
-                </CustomCarousel>
-              </div>
-
-              {/* Chat input */}
-              <div className="px-6 py-4 border-t border-gray-200">
-                <Input
-                  placeholder="Type a message or ask for help…"
-                  size="large"
-                  bordered
-                />
-              </div>
+            {/* Chat input */}
+            <div className="px-6 py-4 border-t border-gray-200">
+              <Search
+                placeholder="Type a message or ask for help…"
+                enterButton={<Button loading={isLoading}>Send</Button>}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onSearch={handleSend}
+                disabled={isLoading}
+              />
+              {isError && (
+                <p className="text-red-500 text-sm mt-2">Failed to send message.</p>
+              )}
             </div>
           </CardLayout>
         </div>
@@ -130,25 +179,8 @@ export default function Chatassistant() {
               ))}
             </div>
           </CardLayout>
-
-          {/* <CardLayout
-            header={<h3 className="text-lg font-semibold">Recent Conversations</h3>}
-            bordered
-          >
-            <ul className="space-y-2">
-              {recentConvos.map((c, i) => (
-                <li
-                  key={i}
-                  className="flex justify-between p-2 rounded hover:bg-gray-50 cursor-pointer"
-                >
-                  <span>{c.title}</span>
-                  <span className="text-xs text-gray-400">{c.time}</span>
-                </li>
-              ))}
-            </ul>
-          </CardLayout> */}
         </div>
       </div>
     </DashboardLayout>
-  )
+  );
 }
