@@ -1,27 +1,29 @@
 'use client'
 
 import { useState } from 'react'
-import { Form, Button, Typography, message } from 'antd'
+import { Form, Button, Typography } from 'antd'
 import { useRouter } from 'next/navigation'
 import AuthLayout from '@/components/layouts/AuthLayout'
 import InputField from '@/components/form/InputField'
 import SelectField from '@/components/form/SelectField'
 import DateField from '@/components/form/DateField'
 import { useFetchDropdownsQuery } from '@/services/dropdownService'
-import { getStep0Config, getStep1Config, getStep2Config } from '@/constants/auth.config'
-import type { SignupStep0, SignupStep1, SignupStep2 } from '@/types/auth'
+import { getStep0Config, getStep1Config, getStep2Config, getStep3Config } from '@/constants/auth.config'
+import type { SignupStep0, SignupStep1, SignupStep2, SignupStep3 } from '@/types/auth'
 import type { Option } from '@/components/form/SelectField'
 import { FieldConfig } from '@/constants/FieldConfig'
 import { useAuth } from '@/hooks/useAuth'
 import { sendOtpSchema, signupSchema, verifyOtpSchema } from '@/schemas/authSchemas'
 import Link from 'next/link'
+import { useToast } from '@/components/Toaster'
 
-const { Title,Text } = Typography
+const { Title, Text } = Typography
 
 export default function SignUp() {
   const router = useRouter()
+  const toast = useToast()
   const { sendOtp, verifyOtp, register } = useAuth()
-  const [step, setStep] = useState<0 | 1 | 2>(0)
+  const [step, setStep] = useState<0 | 1 | 2 | 3>(0)
   const [loading, setLoading] = useState(false)
   const { data: dd, isLoading, error } = useFetchDropdownsQuery()
 
@@ -36,10 +38,11 @@ export default function SignUp() {
   const qualOpts: Option[] = dd.quals.map(q => ({ value: q.id, label: `${q.level} – ${q.stream}` }))
 
   // per-step FieldConfig
-  const configs: Record<0 | 1 | 2, FieldConfig[]> = {
+  const configs: Record<0 | 1 | 2 | 3, FieldConfig[]> = {
     0: getStep0Config(),
     1: getStep1Config(),
-    2: getStep2Config({ trades: tradeOpts, statuses: statusOpts, locations: locationOpts, roles: roleOpts, quals: qualOpts })
+    2: getStep2Config(),
+    3: getStep3Config({ trades: tradeOpts, statuses: statusOpts, locations: locationOpts, roles: roleOpts, quals: qualOpts })
   }
   const config = configs[step]
 
@@ -48,15 +51,15 @@ export default function SignUp() {
     setLoading(true)
     const result = sendOtpSchema.safeParse({ email: values.email, type: 'signup' })
     if (!result.success) {
-      message.error(result.error.errors.map(e => e.message).join(', '))
+      toast.error(result.error.errors.map(e => e.message).join(', '))
       return
     }
     try {
       await sendOtp(values.email, 'signup')
-      message.success('OTP sent! Please check your email.')
+      toast.success('OTP sent! Please check your email.')
       setStep(1)
     } catch (err: any) {
-      message.error(err?.data?.error || 'Failed to send OTP')
+      toast.error(err?.data?.error || 'Failed to send OTP')
     } finally {
       setLoading(false)
     }
@@ -66,21 +69,32 @@ export default function SignUp() {
     setLoading(true)
     const result = verifyOtpSchema.safeParse(values)
     if (!result.success) {
-      message.error(result.error.errors.map(e => e.message).join(', '))
+      toast.error(result.error.errors.map(e => e.message).join(', '))
       return
     }
     try {
       await verifyOtp(values.email, values.otp)
-      message.success('OTP verified! Continue to complete signup.')
+      toast.success('OTP verified! Continue to complete signup.')
       setStep(2)
     } catch (err: any) {
-      message.error(err?.data?.error || 'OTP verification failed')
+      toast.error(err?.data?.error || 'OTP verification failed')
     } finally {
       setLoading(false)
     }
   }
 
-  const handleSignUp = async (values: SignupStep2) => {
+  const handleConfirmPassword = async (values: SignupStep2) => {
+    setLoading(true)
+    const { confirmPassword, password } = values || {};
+    if (confirmPassword === password ) {
+      setStep(3);
+    } else {
+      toast.warning("Password is not matching")
+    }
+    setLoading(false)
+  }
+
+  const handleSignUp = async (values: SignupStep3) => {
     setLoading(true)
     // const result = signupSchema.safeParse(values)
     // if (!result.success) {
@@ -89,23 +103,19 @@ export default function SignUp() {
     // }
     try {
       await register(values)
-      message.success('Signup successful! Redirecting to dashboard...')
+      toast.success('Signup successful! Redirecting to dashboard...')
       router.push('/')
     } catch (err: any) {
-      message.error(err?.data?.error || 'Signup failed')
+      toast.error(err?.data?.error || 'Signup failed')
     } finally {
       setLoading(false)
     }
   }
 
-  const onFinish = step === 0
-    ? handleSendOtp
-    : step === 1
-      ? handleVerifyOtp
-      : handleSignUp
+  const onFinish = step === 0 ? handleSendOtp : step === 1 ? handleVerifyOtp : step === 2 ? handleConfirmPassword : handleSignUp
 
-  const buttonText = ['Send OTP', 'Verify OTP', 'Sign Up'][step]!
-  const titleText = ['Enter Email', 'Verify OTP', 'Complete Sign Up'][step]!
+  const buttonText = ['Send OTP', 'Verify OTP', 'Set Password', 'Sign Up'][step]!
+  const titleText = ['Enter Email', 'Verify OTP', 'Set Password', 'Complete Sign Up'][step]!
 
   return (
     <AuthLayout>
@@ -131,6 +141,7 @@ export default function SignUp() {
                       placeholder={field.placeholder}
                       type={field.inputType}
                       rules={field.rules}
+                    // isDisabled={}
                     />
                   )
                 case 'select':
@@ -158,8 +169,28 @@ export default function SignUp() {
               }
             })}
 
-            <Form.Item>
-              <Button type="primary" htmlType="submit" block size="large" loading={loading}>
+            <Form.Item className="flex">
+              {step === 1 && (
+                <Button
+                  type="link"
+                  htmlType="button"
+                  onClick={() => setStep(0)}
+                  size="large"
+                >
+                  Change Email?
+                </Button>
+              )}
+              {step === 3 && (
+                <Button
+                  type="link"
+                  htmlType="button"
+                  onClick={() => setStep(2)}
+                  size="large"
+                >
+                  Change Password?
+                </Button>
+              )}
+              <Button type="primary" htmlType="submit" size="large" loading={loading}>
                 {buttonText}
               </Button>
             </Form.Item>

@@ -32,6 +32,10 @@ export type SignupStep0 = { email: string }
 export type SignupStep1 = { email: string; otp: string }
 export type SignupStep2 = {
     password: string
+    confirmPassword: string
+}
+export type SignupStep3 = {
+    password: string
     name: string
     contact: string
     aadhaar: string

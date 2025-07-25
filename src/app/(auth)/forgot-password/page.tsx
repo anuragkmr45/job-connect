@@ -8,6 +8,7 @@ import InputField from '@/components/form/InputField'
 import { useAuth } from '@/hooks/useAuth'
 import { sendOtpSchema, verifyOtpSchema, forgotPasswordSchema } from '@/schemas/authSchemas'
 import Link from 'next/link'
+import { useToast } from '@/components/Toaster'
 
 const { Title, Text } = Typography
 
@@ -17,6 +18,7 @@ type Step2 = { email: string; otp: string; newPassword: string; confirmPassword:
 
 export default function ForgotPassword() {
     const router = useRouter()
+    const toast = useToast()
     const { sendOtp, verifyOtp, forgotPassword } = useAuth()
     const [step, setStep] = useState<0 | 1 | 2>(0)
     const [loading, setLoading] = useState(false)
@@ -32,10 +34,10 @@ export default function ForgotPassword() {
         // }
         try {
             await sendOtp(values.email, 'forgot_password')
-            message.success('OTP sent! Please check your email.')
+            toast.success('OTP sent! Please check your email.')
             setStep(1)
         } catch (err: any) {
-            message.error(err?.data?.error || 'Failed to send OTP')
+            toast.error(err?.data?.error || 'Failed to send OTP')
         } finally {
             setLoading(false)
         }
@@ -45,17 +47,17 @@ export default function ForgotPassword() {
         setLoading(true)
         const parsed = verifyOtpSchema.safeParse(values)
         if (!parsed.success) {
-            message.error(parsed.error.errors.map(e => e.message).join(', '))
+            toast.error(parsed.error.errors.map(e => e.message).join(', '))
             setLoading(false)
             return
         }
         try {
             const { email, otp } = values || {};
             await verifyOtp(email, otp)
-            message.success('OTP verified! Please set your new password.')
+            toast.success('OTP verified! Please set your new password.')
             setStep(2)
         } catch (err: any) {
-            message.error(err?.data?.error || 'OTP verification failed')
+            toast.error(err?.data?.error || 'OTP verification failed')
         } finally {
             setLoading(false)
         }
@@ -66,7 +68,7 @@ export default function ForgotPassword() {
 
         const { email, otp, newPassword, confirmPassword } = values || {}
         if (newPassword !== confirmPassword) {
-            message.error('Passwords do not match.')
+            toast.error('Passwords do not match.')
             setLoading(false)
             return
         }
@@ -76,16 +78,16 @@ export default function ForgotPassword() {
             newPassword: newPassword,
         })
         if (!parsed.success) {
-            message.error(parsed.error.errors.map(e => e.message).join(', '))
+            toast.error(parsed.error.errors.map(e => e.message).join(', '))
             setLoading(false)
             return
         }
         try {
             await forgotPassword(email, otp, newPassword)
-            message.success('Password reset successful! Redirecting to sign in...')
+            toast.success('Password reset successful! Redirecting to sign in...')
             router.push('/signin')
         } catch (err: any) {
-            message.error(err?.data?.error || 'Failed to reset password')
+            toast.error(err?.data?.error || 'Failed to reset password')
         } finally {
             setLoading(false)
         }

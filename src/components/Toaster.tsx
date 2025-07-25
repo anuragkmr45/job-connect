@@ -1,39 +1,34 @@
-// // src/components/Toaster.tsx
-// import React, { useEffect } from 'react';
-// import { message } from 'antd';
-// import type { MessageType } from 'antd/es/message';
+import React, { createContext, useContext } from 'react';
+import { message } from 'antd';
+import type { MessageInstance } from 'antd/es/message/interface';
 
-// // 1️⃣ Keep a reference to the MessageApi
-// let messageApi: ReturnType<typeof message.useMessage>[0] | null = null;
+interface ToastContextProps {
+  toast: MessageInstance;
+}
 
-// // 2️⃣ Expose a container component that “plugs in” to AntD’s context
-// export const ToasterContainer: React.FC = () => {
-//     const [api, contextHolder] = message.useMessage();
+const ToastContext = createContext<ToastContextProps | undefined>(undefined);
 
-//     useEffect(() => {
-//         messageApi = api;
-//     }, [api]);
+/**
+ * Provider that injects Antd message API into React context
+ */
+export const ToastProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+  const [api, contextHolder] = message.useMessage();
 
-//     return <>{contextHolder}</>;
-// };
+  return (
+    <ToastContext.Provider value={{ toast: api }}>
+      {contextHolder}
+      {children}
+    </ToastContext.Provider>
+  );
+};
 
-// // 3️⃣ Export a singleton “Toaster” with a .show() method
-// export type ToasterType = {
-//     show: (opts: {
-//         type: MessageType;
-//         toastmsg: string;
-//         /** optional: override default duration (seconds) */
-//         duration?: number;
-//     }) => void;
-// };
-
-// export const Toaster: ToasterType = {
-//     show({ type, toastmsg, duration = 3 }) {
-//         if (!messageApi) {
-//             // if someone calls Toaster.show before the container mounted
-//             console.warn('[Toaster] not yet initialized');
-//             return;
-//         }
-//         messageApi.open({ type, content: toastmsg, duration });
-//     }
-// };
+/**
+ * Custom hook to access toast functions
+ */
+export function useToast() {
+  const ctx = useContext(ToastContext);
+  if (!ctx) {
+    throw new Error('useToast must be used within a ToastProvider');
+  }
+  return ctx.toast;
+}

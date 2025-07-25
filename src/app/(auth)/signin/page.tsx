@@ -1,34 +1,36 @@
 'use client'
 
 import { useState } from 'react'
-import { Form, Input, Button, Typography, message } from 'antd'
+import { Form, Input, Button, Typography } from 'antd'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AuthLayout from '@/components/layouts/AuthLayout'
 import { useAuth } from '@/hooks/useAuth'
 import { loginSchema } from '@/schemas/authSchemas'
+import { useToast } from '@/components/Toaster'
 
 const { Title, Text } = Typography
 
 export default function SignIn() {
   const router = useRouter()
   const { login } = useAuth()
+   const toast = useToast();
   const [loading, setLoading] = useState(false)
 
   const onFinish = async (values: { email: string; password: string }) => {
     setLoading(true)
     const result = loginSchema.safeParse(values)
     if (!result.success) {
-      message.error(result.error.errors.map(e => e.message).join(', '))
+      toast.error(result.error.errors.map(e => e.message).join(', '))
       return
     }
     try {
       await login(values.email, values.password)
-      message.success('Signed in successfully!')
+      toast.success('Signed in successfully!')
       router.replace('/')  // redirect to dashboard or home
     } catch (err: any) {
-      message.error(err?.data?.data || 'Sign in failed')
+      toast.error(err?.data?.error || 'Sign in failed')
     } finally {
       setLoading(false)
     }

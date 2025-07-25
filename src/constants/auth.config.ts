@@ -37,7 +37,14 @@ export const getStep1Config = (): FieldConfig[] => [
 /**
  * Now expects already‐mapped Option[] arrays, not raw API types.
  */
-export function getStep2Config(dropdowns: {
+export const getStep2Config = (): FieldConfig[] => {
+  return [
+    { key: 'password', label: 'Password', type: 'input', inputType: 'password', rules: [{ required: true }] },
+    { key: 'confirmPassword', label: 'Confirm Password', type: 'input', inputType: 'password', rules: [{ required: true }] },
+  ]
+}
+
+export function getStep3Config(dropdowns: {
   trades: Option[]
   statuses: Option[]
   locations: Option[]
@@ -45,11 +52,10 @@ export function getStep2Config(dropdowns: {
   quals: Option[]
 }): FieldConfig[] {
   return [
-    { key: 'password', label: 'Password', type: 'input', inputType: 'password', rules: [{ required: true }] },
     { key: 'name', label: 'Full Name', type: 'input', rules: [{ required: true }] },
     { key: 'contact', label: 'Contact', type: 'input', inputType: 'tel', rules: [{ required: true }] },
-    { key: 'aadhaar', label: 'Aadhaar No.', type: 'input', rules: [{ required: true }] },
-    { key: 'pan', label: 'PAN No.', type: 'input', rules: [{ required: true }] },
+    // { key: 'aadhaar', label: 'Aadhaar No.', type: 'input', rules: [{ required: true }] },
+    // { key: 'pan', label: 'PAN No.', type: 'input', rules: [{ required: true }] },
 
     {
       key: 'military_trade_id',
