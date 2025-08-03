@@ -19,7 +19,7 @@ type Step2 = { email: string; otp: string; newPassword: string; confirmPassword:
 export default function ForgotPassword() {
     const router = useRouter()
     const toast = useToast()
-    const { sendOtp, verifyOtp, forgotPassword } = useAuth()
+    const { forgotPasswordSendOTP, forgotPasswordVerifyOTP, forgotPassword } = useAuth()
     const [step, setStep] = useState<0 | 1 | 2>(0)
     const [loading, setLoading] = useState(false)
 
@@ -33,7 +33,7 @@ export default function ForgotPassword() {
         //     return
         // }
         try {
-            await sendOtp(values.email, 'forgot_password')
+            await forgotPasswordSendOTP(values.email)
             toast.success('OTP sent! Please check your email.')
             setStep(1)
         } catch (err: any) {
@@ -53,7 +53,7 @@ export default function ForgotPassword() {
         }
         try {
             const { email, otp } = values || {};
-            await verifyOtp(email, otp)
+            await forgotPasswordVerifyOTP(email, otp)
             toast.success('OTP verified! Please set your new password.')
             setStep(2)
         } catch (err: any) {
@@ -65,25 +65,23 @@ export default function ForgotPassword() {
 
     const handleResetPassword = async (values: Step2) => {
         setLoading(true)
-
-        const { email, otp, newPassword, confirmPassword } = values || {}
+        
+        const { newPassword, confirmPassword } = values || {}
         if (newPassword !== confirmPassword) {
             toast.error('Passwords do not match.')
             setLoading(false)
             return
         }
-        const parsed = forgotPasswordSchema.safeParse({
-            email: email,
-            otp: otp,
-            newPassword: newPassword,
-        })
-        if (!parsed.success) {
-            toast.error(parsed.error.errors.map(e => e.message).join(', '))
-            setLoading(false)
-            return
-        }
+        // const parsed = forgotPasswordSchema.safeParse({
+        //     newPassword: newPassword,
+        // })
+        // if (!parsed.success) {
+        //     toast.error(parsed.error.errors.map(e => e.message).join(', '))
+        //     setLoading(false)
+        //     return
+        // }
         try {
-            await forgotPassword(email, otp, newPassword)
+            await forgotPassword(newPassword)
             toast.success('Password reset successful! Redirecting to sign in...')
             router.push('/signin')
         } catch (err: any) {

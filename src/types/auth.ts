@@ -5,6 +5,12 @@ export interface SendOtpResponse { message: string }
 export interface VerifyOtpRequest { email: string; otp: string }
 export interface VerifyOtpResponse { preSignupToken: string }
 
+export interface SendOtpForgotPassRequest { email: string }
+export interface SendOtpForgotPassResponse { message: string }
+
+export interface VerifyOtpForgotPassRequest { email: string; otp: string }
+export interface VerifyOtpForgotPassResponse { preSignupToken: string }
+
 export interface RegisterRequest {
     password: string;
     name: string;
@@ -22,8 +28,11 @@ export interface RegisterRequest {
 export interface LoginRequest { email: string; password: string }
 export interface LoginResponse { token: string }
 
-export interface ForgotPasswordRequest { email: string; otp: string; newPassword: string }
-export interface ForgotPasswordResponse { message: string }
+export interface VerifyOTPForgotPassRequest { email: string; otp: string }
+export interface VerifyOTPForgotPassResponse { preResetToken: string }
+
+export interface ForgotPassRequest { newPassword: string }
+export interface ForgotPassResponse { message: string, token: string }
 
 export interface ChangePasswordRequest { currentPassword: string; newPassword: string }
 export interface ChangePasswordResponse { message: string }

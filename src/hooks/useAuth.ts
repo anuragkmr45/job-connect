@@ -7,10 +7,13 @@ import {
   useRegisterMutation,
   useLoginMutation,
   useForgotPasswordMutation,
-  useChangePasswordMutation
+  useChangePasswordMutation,
+  useForgotPasswordVerifyOTPMutation,
+  useForgotPasswordSendOTPMutation
 } from '@/services/authService'
 import {
   setPreSignupToken,
+  setPreResetToken,
   setToken,
   clearAuth
 } from '@/store/authSlice'
@@ -19,18 +22,22 @@ import type {
   VerifyOtpRequest,
   RegisterRequest,
   LoginRequest,
-  ForgotPasswordRequest,
-  ChangePasswordRequest
+  ForgotPassRequest,
+  ChangePasswordRequest,
+  SendOtpForgotPassRequest,
+  VerifyOTPForgotPassRequest
 } from '@/types/auth'
 
 export function useAuth() {
   const dispatch = useAppDispatch()
-  const { token, preSignupToken } = useAppSelector(s => s.auth)
+  const { token, preSignupToken, preResetToken } = useAppSelector(s => s.auth)
 
   const [sendOtpTrigger, sendOtpResult] = useSendOtpMutation()
   const [verifyOtpTrigger, verifyOtpResult] = useVerifyOtpMutation()
   const [registerTrigger, registerResult] = useRegisterMutation()
   const [loginTrigger, loginResult] = useLoginMutation()
+  const [forgotPassSendOTPTrigger, forgotPassSendOTPResult] = useForgotPasswordSendOTPMutation()
+  const [forgotPassVerifyOTPTrigger, forgotPassVerifyOTPResult] = useForgotPasswordVerifyOTPMutation()
   const [forgotTrigger, forgotResult] = useForgotPasswordMutation()
   const [changePassTrigger, changePassResult] = useChangePasswordMutation()
 
@@ -59,9 +66,25 @@ export function useAuth() {
     return res
   }, [loginTrigger, dispatch])
 
-  const forgotPassword = useCallback(async (email: string, otp: string, newPassword: string) => {
-    const payload: ForgotPasswordRequest = { email, otp, newPassword }
-    return await forgotTrigger(payload).unwrap()
+  const forgotPasswordSendOTP = useCallback(async (email: string) => {
+    const payload: SendOtpForgotPassRequest = { email }
+    return await forgotPassSendOTPTrigger(payload).unwrap()
+  }, [forgotPassSendOTPTrigger])
+
+  const forgotPasswordVerifyOTP = useCallback(
+    async (email: string, otp: string) => {
+      const payload: VerifyOTPForgotPassRequest = { email, otp };
+      const res = await forgotPassVerifyOTPTrigger(payload).unwrap(); // ✅ correct trigger
+      dispatch(setPreResetToken(res.preResetToken));                  // ✅ stash token
+      return res;
+    },
+    [forgotPassVerifyOTPTrigger, dispatch]
+  );
+
+  const forgotPassword = useCallback(async (newPassword: string) => {
+    const res = await forgotTrigger({ newPassword }).unwrap();
+    dispatch(setToken(res.token));         // log the user in right away
+    return res;
   }, [forgotTrigger])
 
   const changePassword = useCallback(async (currentPassword: string, newPassword: string) => {
@@ -83,6 +106,8 @@ export function useAuth() {
     verifyOtp,
     register,
     login,
+    forgotPasswordSendOTP,
+    forgotPasswordVerifyOTP,
     forgotPassword,
     changePassword,
     logout,
@@ -92,6 +117,8 @@ export function useAuth() {
     verifyOtpResult,
     registerResult,
     loginResult,
+    forgotPassSendOTPResult,
+    forgotPassVerifyOTPResult,
     forgotResult,
     changePassResult
   }

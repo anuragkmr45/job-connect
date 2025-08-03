@@ -5,8 +5,13 @@ import type {
   SendOtpRequest, SendOtpResponse,
   VerifyOtpRequest, VerifyOtpResponse,
   RegisterRequest, LoginRequest, LoginResponse,
-  ForgotPasswordRequest, ForgotPasswordResponse,
-  ChangePasswordRequest, ChangePasswordResponse
+  ChangePasswordRequest, ChangePasswordResponse,
+  SendOtpForgotPassResponse,
+  SendOtpForgotPassRequest,
+  VerifyOTPForgotPassResponse,
+  VerifyOTPForgotPassRequest,
+  ForgotPassResponse,
+  ForgotPassRequest
 } from '../types/auth';
 
 export const authApi = createApi({
@@ -14,9 +19,11 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_URL,
     prepareHeaders: (headers, { getState, endpoint }) => {
-      const { token, preSignupToken } = (getState() as RootState).auth;
+      const { token, preSignupToken, preResetToken } = (getState() as RootState).auth;
       if (endpoint === 'register' && preSignupToken) {
         headers.set('Authorization', `Bearer ${preSignupToken}`);
+      } else if (endpoint === 'forgotPassword' && preResetToken) {   // 🆕
+        headers.set('Authorization', `Bearer ${preResetToken}`);
       } else if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
@@ -36,8 +43,14 @@ export const authApi = createApi({
     login: builder.mutation<LoginResponse, LoginRequest>({
       query: (body) => ({ url: '/api/auth/login', method: 'POST', body })
     }),
-    forgotPassword: builder.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
-      query: (body) => ({ url: '/api/auth/forgot-password', method: 'POST', body })
+    forgotPasswordSendOTP: builder.mutation<SendOtpForgotPassResponse, SendOtpForgotPassRequest>({
+      query: (body) => ({ url: '/api/auth/forgot-password/send-otp', method: 'POST', body })
+    }),
+    forgotPasswordVerifyOTP: builder.mutation<VerifyOTPForgotPassResponse, VerifyOTPForgotPassRequest>({
+      query: (body) => ({ url: '/api/auth/forgot-password/verify-otp', method: 'POST', body })
+    }),
+    forgotPassword: builder.mutation<ForgotPassResponse, ForgotPassRequest>({
+      query: (body) => ({ url: '/api/auth/forgot-password/complete', method: 'POST', body })
     }),
     changePassword: builder.mutation<ChangePasswordResponse, ChangePasswordRequest>({
       query: (body) => ({ url: '/api/auth/change-password', method: 'POST', body })
@@ -50,6 +63,8 @@ export const {
   useVerifyOtpMutation,
   useRegisterMutation,
   useLoginMutation,
+  useForgotPasswordSendOTPMutation,
+  useForgotPasswordVerifyOTPMutation,
   useForgotPasswordMutation,
   useChangePasswordMutation
 } = authApi;
