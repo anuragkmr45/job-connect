@@ -15,6 +15,7 @@ import JobListingCard from "@/components/cards/JobListingCard";
 import Spinner from "@/components/Spinner";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "antd";
 
 export default function Home() {
 
@@ -86,9 +87,16 @@ export default function Home() {
           )
         }
       </div>
-      <Link href='https://www.ncs.gov.in/' target="_blank">
-      <Image src='https://shillonglawcollege.in/assets/images/proj/ncs.jpg' alt="" height={200} width={600} className="w-full h-100 my-10" />
-      </Link>
+      <div className="my-12">
+        <Link  href='https://www.ncs.gov.in/' target="_blank" className="flex justify-end">
+          <Button type="primary" size="large">
+            NCS Jobs
+          </Button>
+        </Link>
+        <Link href='https://www.ncs.gov.in/' target="_blank">
+          <Image src='https://shillonglawcollege.in/assets/images/proj/ncs.jpg' alt="" height={200} width={600} className="w-full h-100" />
+        </Link>
+      </div>
       {!isSummaryLoading && <div>
         <h2 className="text-2xl text=[#1E293B] font-semibold">Application Summary</h2>
         <div className="grid grid-cols-3 gap-4">
