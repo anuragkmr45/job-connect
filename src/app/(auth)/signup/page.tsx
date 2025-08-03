@@ -23,9 +23,11 @@ export default function SignUp() {
   const router = useRouter()
   const toast = useToast()
   const { sendOtp, verifyOtp, register } = useAuth()
+  const { data: dd, isLoading, error } = useFetchDropdownsQuery()
+
   const [step, setStep] = useState<0 | 1 | 2 | 3>(0)
   const [loading, setLoading] = useState(false)
-  const { data: dd, isLoading, error } = useFetchDropdownsQuery()
+  const [pass, setPass] = useState('')
 
   if (isLoading) return <AuthLayout><div>Loading form data…</div></AuthLayout>
   if (error || !dd) return <AuthLayout><div>Error loading form data</div></AuthLayout>
@@ -87,6 +89,7 @@ export default function SignUp() {
     setLoading(true)
     const { confirmPassword, password } = values || {};
     if (confirmPassword === password ) {
+      setPass(password)
       setStep(3);
     } else {
       toast.warning("Password is not matching")
@@ -102,9 +105,10 @@ export default function SignUp() {
     //   return
     // }
     try {
-      await register(values)
+      const payload = {...values, password: pass }
+      await register(payload)
+      
       toast.success('Signup successful! Redirecting to dashboard...')
-      router.push('/')
     } catch (err: any) {
       toast.error(err?.data?.error || 'Signup failed')
     } finally {

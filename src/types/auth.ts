@@ -22,8 +22,8 @@ export interface RegisterRequest {
     preferred_location_ids: number[];
     work_role_ids: number[];
     qualification_id: number;
-    aadhaar: string;
-    pan: string;
+    // aadhaar: string;
+    // pan: string;
 }
 export interface LoginRequest { email: string; password: string }
 export interface LoginResponse { token: string }
@@ -47,8 +47,8 @@ export type SignupStep3 = {
     password: string
     name: string
     contact: string
-    aadhaar: string
-    pan: string
+    // aadhaar: string
+    // pan: string
     military_trade_id: number
     service_status_id: number
     service_start_date: string
