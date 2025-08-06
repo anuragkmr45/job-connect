@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useGetProfileQuery } from '@/services/profileService';
 import { clearAuth } from '@/store/authSlice';
 import Spinner from '@/components/Spinner';
+import { Button } from 'antd';
 
 export default function ProtectedLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -41,6 +42,15 @@ export default function ProtectedLayout({ children }: { children: ReactNode }) {
   // 5) Show spinner until checks complete
   if (!ready || (token && isLoading)) {
     return <Spinner fullscreen />;
+  }
+
+  if (!token) {
+    return (
+      <div className="flex h-screen flex-col items-center justify-center gap-4">
+        <p className="text-lg font-semibold">Not authorised</p>
+        <Button type='link' size='large' onClick={() => router.push('/signin')}>Go to sign-in</Button>
+      </div>
+    );
   }
 
   // 6) All good → render protected children

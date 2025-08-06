@@ -6,6 +6,9 @@ import Sidebar from '../Sidebar'
 import Header from '../Header'
 import { usePathname } from 'next/navigation'
 import ProtectedLayout from './ProtectedLayout'
+import { Button } from 'antd'
+import { FaRegCommentDots } from 'react-icons/fa'
+import ChatWidget from '../ChatWidget'
 
 const TITLES: Record<string, string> = {
   '/': 'Dashboard',
@@ -57,6 +60,7 @@ export default function DashboardLayout({ children }: PropsWithChildren<{}>) {
           <main className="flex-1 overflow-y-auto bg-gray-50 p-6 overscroll-contain">
             {children}
           </main>
+          <ChatWidget />
         </div>
       </div>
     </ProtectedLayout>
