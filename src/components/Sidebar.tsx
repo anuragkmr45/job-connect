@@ -16,7 +16,7 @@ interface SidebarItem {
 }
 
 const ITEMS: SidebarItem[] = [
-  { key: 'dashboard', label: 'Dashboard', icon: <FiSearch />, href: '/' },
+  { key: 'dashboard', label: 'Dashboard', icon: <FiSearch />, href: '/main' },
   { key: 'profile', label: 'Profile', icon: <FiBookmark />, href: '/profile' },
   { key: 'searchjobs', label: 'Search Jobs', icon: <FiMessageSquare />, href: '/search-jobs' },
   { key: 'appliedjobs', label: 'Applied Jobs', icon: <FiMessageSquare />, href: '/applied-jobs' },
@@ -37,7 +37,7 @@ export default function Sidebar() {
   return (
     <div className="flex flex-col h-screen bg-[#1e293b] text-white">
       {/* header */}
-      <Link href='/' className="flex items-center px-6 py-4 space-x-3 cursor-pointer">
+      <Link href='/main' className="flex items-center px-6 py-4 space-x-3 cursor-pointer">
         <Image src="https://res.cloudinary.com/dkwptotbs/image/upload/v1751692517/job-connect_lhcl0l.png" alt="JobConnect" width={40} height={40} />
         <div>
           <h1 className="text-lg font-semibold">JobConnect</h1>

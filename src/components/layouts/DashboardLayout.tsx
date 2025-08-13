@@ -6,12 +6,12 @@ import Sidebar from '../Sidebar'
 import Header from '../Header'
 import { usePathname } from 'next/navigation'
 import ProtectedLayout from './ProtectedLayout'
-import { Button } from 'antd'
-import { FaRegCommentDots } from 'react-icons/fa'
+// import { Button } from 'antd'
+// import { FaRegCommentDots } from 'react-icons/fa'
 import ChatWidget from '../ChatWidget'
 
 const TITLES: Record<string, string> = {
-  '/': 'Dashboard',
+  '/main': 'Dashboard',
   '/profile': 'Profile',
   '/search-jobs': 'Search Jobs',
   '/applied-jobs': 'Applied Jobs',

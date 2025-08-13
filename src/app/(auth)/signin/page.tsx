@@ -28,7 +28,7 @@ export default function SignIn() {
     try {
       await login(values.email, values.password)
       toast.success('Signed in successfully!')
-      router.replace('/')  // redirect to dashboard or home
+      router.replace('/main')  // redirect to dashboard or home
     } catch (err: any) {
       toast.error(err?.data?.error || 'Sign in failed')
     } finally {

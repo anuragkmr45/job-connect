@@ -9,7 +9,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         if (token) {
-            router.replace('/');   // already signed in → go to dashboard
+            router.replace('/main');   // already signed in → go to dashboard
         }
     }, [token, router]);
 
