@@ -35,15 +35,6 @@ const Header = () => {
                     </div>
                 </div>
                 <nav className="hidden md:flex items-center space-x-6">
-                    <a href="#jobs" className="hover:text-amber-300 transition-colors">
-                        Jobs
-                    </a>
-                    <a href="#about" className="hover:text-amber-300 transition-colors">
-                        About
-                    </a>
-                    <a href="#news" className="hover:text-amber-300 transition-colors">
-                        News
-                    </a>
                     <Link href='/signin'>
                         <Button
                             size="large"
@@ -506,36 +497,9 @@ const Footer = () => {
     return (
         <footer className="bg-indigo-700 text-white py-8">
             <div className="container mx-auto px-4">
-                <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-amber-400 rounded-full flex items-center justify-center">
-                            <span className="text-indigo-800 font-bold text-sm">JC</span>
-                        </div>
-                        <h3 className="text-lg font-semibold">Job Connect</h3>
-                    </div>
-
-                    <div className="flex flex-wrap justify-center md:justify-end gap-6 text-sm">
-                        <a href="#" className="hover:text-amber-300 transition-colors">
-                            About
-                        </a>
-                        <a href="#" className="hover:text-amber-300 transition-colors">
-                            Contact
-                        </a>
-                        <a href="#" className="hover:text-amber-300 transition-colors">
-                            Privacy Policy
-                        </a>
-                        <a href="#" className="hover:text-amber-300 transition-colors">
-                            Terms of Service
-                        </a>
-                        <a href="#" className="hover:text-amber-300 transition-colors">
-                            Accessibility
-                        </a>
-                    </div>
-                </div>
-
                 <div className="border-t border-white/20 mt-6 pt-6 text-center">
                     <p className="text-sm text-white/90">
-                        Official U.S. Government Website | © 2024 Job Connect
+                        Official Indian Government Website | © 2025 Job Connect
                     </p>
                 </div>
             </div>
