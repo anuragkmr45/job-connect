@@ -1,5 +1,6 @@
 
 import JobListingCard from "@/components/cards/JobListingCard";
+import NewsSection from "@/components/News/NewsSection";
 import { Job } from "@/types/job";
 import { Button } from "antd";
 import Link from "next/link";
@@ -7,7 +8,6 @@ import Link from "next/link";
 const Index = () => {
     return (
         <div className="min-h-screen">
-            <Header />
             <HeroSection />
             <FeaturesSection />
             <JobsSection />
@@ -19,9 +19,12 @@ const Index = () => {
 
 export default Index;
 
-const Header = () => {
+
+const HeroSection = () => {
     return (
-        <header className="bg-indigo-600 text-white shadow-lg">
+        <>
+        <div>
+            <header className="bg-gray-600 text-white shadow-lg h-0">
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                     <div className="w-12 h-12 bg-amber-400 rounded-full flex items-center justify-center">
@@ -34,7 +37,7 @@ const Header = () => {
                         </p>
                     </div>
                 </div>
-                <nav className="hidden md:flex items-center space-x-6">
+                <nav className="hidden md:flex items-center space-x-6 mt-0">
                     <Link href='/signin'>
                         <Button
                             size="large"
@@ -47,40 +50,51 @@ const Header = () => {
                 </nav>
             </div>
         </header>
-    );
-};
+        <section className="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-20"
+          style={{ backgroundImage: "url('/battlefield-action.jpg')" }}
+          >
+            <div className="container mx-auto px-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    {/* Left Column */}
+                    <div className="text-center md:text-left ml-32">
+                        <h1 className="text-5xl md:text-6xl font-bold mb-6">
+                            Your Next Mission:
+                            <span className="text-amber-300"> Career Success</span>
+                        </h1>
+                        <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl">
+                            AI-powered job matching for military personnel. Find your perfect role
+                            in civilian careers, government positions, and defense contractors.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                            <Link href='/signup'>
+                                <Button
+                                    size="large"
+                                    type="primary"
+                                    className="!bg-amber-400 !border-amber-400 !text-indigo-900 hover:!bg-amber-500 text-lg px-8 py-5"
+                                >
+                                    Find Your Next Role
+                                </Button>
+                            </Link>
+                            <Button
+                                size="large"
+                                type="default"
+                                className="border border-white text-white hover:!bg-white hover:!text-indigo-700 text-lg px-8 py-5"
+                            >
+                                Browse Companies
+                            </Button>
+                        </div>
+                    </div>
 
-const HeroSection = () => {
-    return (
-        <section className="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-20">
-            <div className="container mx-auto px-4 text-center">
-                <h1 className="text-5xl md:text-6xl font-bold mb-6">
-                    Your Next Mission:
-                    <span className="text-amber-300"> Career Success</span>
-                </h1>
-                <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
-                    AI-powered job matching for military personnel. Find your perfect role
-                    in civilian careers, government positions, and defense contractors.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Link href='/signup'>
-                        <Button
-                            size="large"
-                            type="primary"
-                            className="!bg-amber-400 !border-amber-400 !text-indigo-900 hover:!bg-amber-500 text-lg px-8 py-5"
-                        >
-                            Find Your Next Role
-                        </Button>
-                    </Link>
-                    <Button
-                        size="large"
-                        type="default"
-                        className="border border-white text-white hover:!bg-white hover:!text-indigo-700 text-lg px-8 py-5"
-                    >
-                        Browse Companies
-                    </Button>
+                    {/* Right Column (News Section) */}
+                    <div className="flex justify-center md:justify-end mt-12">
+                        <div className="bg-white rounded-xl shadow-lg h-[500px] w-full max-w-sm overflow-hidden">
+                            <NewsSection />
+                        </div>
+                    </div>
                 </div>
-                <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+
+                {/* Stats Row */}
+                <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                     <div>
                         <h3 className="text-3xl font-bold text-amber-300">50,000+</h3>
                         <p className="text-white/90">Active Job Listings</p>
@@ -96,8 +110,11 @@ const HeroSection = () => {
                 </div>
             </div>
         </section>
+        </div>
+        </>
     );
 };
+
 
 const FeaturesSection = () => {
     const features = [
@@ -106,11 +123,11 @@ const FeaturesSection = () => {
             description:
                 "Our advanced AI analyzes your military experience and matches you with roles that value your unique skills.",
         },
-        {
-            title: "Security Clearance Jobs",
-            description:
-                "Access exclusive opportunities requiring security clearances that leverage your military background.",
-        },
+        // {
+        //     title: "Security Clearance Jobs",
+        //     description:
+        //         "Access exclusive opportunities requiring security clearances that leverage your military background.",
+        // },
         {
             title: "Skills Translation",
             description:
@@ -121,23 +138,23 @@ const FeaturesSection = () => {
             description:
                 "Connect with other veterans who have successfully transitioned to civilian careers.",
         },
-        {
-            title: "Career Coaching",
-            description:
-                "Get personalized career coaching from experts who understand military-to-civilian transitions.",
-        },
-        {
-            title: "Interview Prep",
-            description:
-                "Prepare for civilian interviews with tailored coaching and practice sessions.",
-        },
+        // {
+        //     title: "Career Coaching",
+        //     description:
+        //         "Get personalized career coaching from experts who understand military-to-civilian transitions.",
+        // },
+        // {
+        //     title: "Interview Prep",
+        //     description:
+        //         "Prepare for civilian interviews with tailored coaching and practice sessions.",
+        // },
     ];
 
     return (
         <section id="about" className="py-16">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-12">
-                    <h2 className="text-4xl font-bold text-indigo-700 mb-4">
+                    <h2 className="text-4xl font-bold text-green-950 mb-4">
                         Built for Military Professionals
                     </h2>
                     <p className="text-xl text-slate-600 max-w-3xl mx-auto">
@@ -292,7 +309,7 @@ const JobsSection = () => {
         <section id="jobs" className="py-16 bg-slate-50">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-12">
-                    <h2 className="text-4xl font-bold text-indigo-700 mb-4">
+                    <h2 className="text-4xl font-bold text-green-950 mb-4">
                         Featured Opportunities
                     </h2>
                     <p className="text-xl text-slate-600 max-w-2xl mx-auto">
@@ -312,7 +329,7 @@ const JobsSection = () => {
                         <Button
                             size="large"
                             type="default"
-                            className="border border-indigo-600 text-indigo-600 hover:!bg-indigo-600 hover:!text-white"
+                            className="border border-indigo-600 text-indigo-600 hover:!bg-blue-600 hover:!text-white"
                         >
                             View All Jobs
                         </Button>
@@ -414,7 +431,7 @@ const NewsNotifications = () => {
         <section id="news" className="py-16">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-12">
-                    <h2 className="text-4xl font-bold text-indigo-700 mb-4">
+                    <h2 className="text-4xl font-bold text-green-950 mb-4">
                         Stay Informed
                     </h2>
                     <p className="text-xl text-slate-600">
@@ -425,7 +442,7 @@ const NewsNotifications = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Notifications Column */}
                     <div>
-                        <h3 className="text-2xl font-semibold text-indigo-700 mb-6">
+                        <h3 className="text-2xl font-semibold text-green-950 mb-6">
                             Notifications
                         </h3>
                         <div className="space-y-4">
@@ -464,7 +481,7 @@ const NewsNotifications = () => {
 
                     {/* Job News Column */}
                     <div>
-                        <h3 className="text-2xl font-semibold text-indigo-700 mb-6">
+                        <h3 className="text-2xl font-semibold text-green-950 mb-6">
                             Career News
                         </h3>
                         <div className="space-y-4">
@@ -495,7 +512,7 @@ const NewsNotifications = () => {
 
 const Footer = () => {
     return (
-        <footer className="bg-indigo-700 text-white py-8">
+        <footer className="bg-gray-600 text-white py-8">
             <div className="container mx-auto px-4">
                 <div className="border-t border-white/20 mt-6 pt-6 text-center">
                     <p className="text-sm text-white/90">

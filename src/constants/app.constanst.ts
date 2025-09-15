@@ -1,2 +1,3 @@
 export const AVATAR_FALLBACK = "https://res.cloudinary.com/dkwptotbs/image/upload/v1749901385/fr-bg-black_rwqtim.png"
 export const LOGO = "https://res.cloudinary.com/dkwptotbs/image/upload/v1749901385/fr-bg-black_rwqtim.png"
+export const APP_NAME = "Job Connect"

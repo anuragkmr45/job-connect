@@ -99,7 +99,7 @@ export default function Home() {
       </div>
       {!isSummaryLoading && <div>
         <h2 className="text-2xl text=[#1E293B] font-semibold">Application Summary</h2>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 !gap-4">
           <SavedJobsPanel jobs={saved} />
           <SavedJobsPanel jobs={applied} title="Applied Jobs" />
           <SavedJobsPanel jobs={viewed} title="Viewed Jobs" />

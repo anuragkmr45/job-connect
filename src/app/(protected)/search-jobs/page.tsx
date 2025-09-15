@@ -65,7 +65,7 @@ export default function SearchJobs() {
         />
         {
           !isRecLoading && (
-            <FeatureJobCarousel featuredJobs={featuredJobs} cardBg='bg-[#FEF08A]' />
+            <FeatureJobCarousel featuredJobs={featuredJobs} cardBg='bg-[#ECECEC]' />
           )
         }
 

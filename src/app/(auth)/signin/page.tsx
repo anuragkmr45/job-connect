@@ -38,7 +38,7 @@ export default function SignIn() {
 
   return (
     <AuthLayout>
-      <Title level={2}>Sign In</Title>
+      <Title level={2} className="!text-white">Sign In</Title>
 
       <Form
         layout="vertical"
@@ -46,7 +46,7 @@ export default function SignIn() {
         className="space-y-6 mt-4"
       >
         <Form.Item
-          name="email"
+          name="email"  
           label="Email"
           rules={[
             { required: true, message: 'Please enter your email' },
@@ -88,7 +88,7 @@ export default function SignIn() {
         </Form.Item>
 
         <div className="text-sm">
-          <Text>
+          <Text className="!text-white">
             Don’t have an account?{' '}
             <Link href="/signup" className="text-teal-700 font-semibold">
               Sign Up

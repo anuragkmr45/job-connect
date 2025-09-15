@@ -43,16 +43,16 @@ export default function SavedJobsPanel({
                     </Button>
                 </div>
             }
-            footer={
-                <div className="text-center">
-                    <button
-                        onClick={onViewAll}
-                        className="text-blue-600 hover:underline"
-                    >
-                        View All Saved Jobs
-                    </button>
-                </div>
-            }
+            // footer={
+            //     <div className="text-center">
+            //         <button
+            //             onClick={onViewAll}
+            //             className="text-blue-600 hover:underline"
+            //         >
+            //             View All Saved Jobs
+            //         </button>
+            //     </div>
+            // }
         >
             {isOpen && (
                 <div className="space-y-4">
