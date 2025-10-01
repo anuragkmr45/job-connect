@@ -24,50 +24,86 @@ export default function SavedJobsPanel({
     // const { toggleSave, doApply } = useJobActions()
 
     return (
+
         <CardLayout
-            elevation="sm"
-            bordered
-            className="w-full"
-            header={
-                <div className="flex items-center justify-between">
-                    <h2 className="text-lg font-semibold">
-                        {title ?? "Saved Jobs"} ({jobs.length ?? 0})
-                    </h2>
-                    <Button
-                        onClick={() => setIsOpen((o) => !o)}
-                        aria-label={isOpen ? 'Collapse panel' : 'Expand panel'}
-                        className="text-gray-500 hover:text-gray-700"
-                        type='text'
-                    >
-                        {isOpen ? <CiCircleChevUp size={20} /> : <CiCircleChevDown size={20} />}
-                    </Button>
-                </div>
-            }
-            // footer={
-            //     <div className="text-center">
-            //         <button
-            //             onClick={onViewAll}
-            //             className="text-blue-600 hover:underline"
-            //         >
-            //             View All Saved Jobs
-            //         </button>
-            //     </div>
-            // }
-        >
-            {isOpen && (
-                <div className="space-y-4">
-                    {jobs.map((job) => (
-                        <SaveJobCard
-                            key={job.id}
-                            job={job}
-                            savedAgoText={getSavedAgoText(job)}
-                            matchPercent={getMatch(job)}
-                            isSaved={true}
-                        />
-                    ))}
-                </div>
-            )}
-        </CardLayout>
+    elevation="sm"
+    bordered
+    className="w-full"
+    header={
+        <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold">
+                {title ?? "Saved Jobs"} ({jobs.length ?? 0})
+            </h2>
+            <Button
+                onClick={() => setIsOpen((o) => !o)}
+                aria-label={isOpen ? 'Collapse panel' : 'Expand panel'}
+                className="text-gray-500 hover:text-gray-700"
+                type='text'
+            >
+                {isOpen ? <CiCircleChevUp size={20} /> : <CiCircleChevDown size={20} />}
+            </Button>
+        </div>
+    }
+>
+    {isOpen && (
+        <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2">
+            {jobs.map((job) => (
+                <SaveJobCard
+                    key={job.id}
+                    job={job}
+                    savedAgoText={getSavedAgoText(job)}
+                    matchPercent={getMatch(job)}
+                    isSaved={true}
+                />
+            ))}
+        </div>
+    )}
+</CardLayout>
+
+        // <CardLayout
+        //     elevation="sm"
+        //     bordered
+        //     className="w-full"
+        //     header={
+        //         <div className="flex items-center justify-between">
+        //             <h2 className="text-lg font-semibold">
+        //                 {title ?? "Saved Jobs"} ({jobs.length ?? 0})
+        //             </h2>
+        //             <Button
+        //                 onClick={() => setIsOpen((o) => !o)}
+        //                 aria-label={isOpen ? 'Collapse panel' : 'Expand panel'}
+        //                 className="text-gray-500 hover:text-gray-700"
+        //                 type='text'
+        //             >
+        //                 {isOpen ? <CiCircleChevUp size={20} /> : <CiCircleChevDown size={20} />}
+        //             </Button>
+        //         </div>
+        //     }
+        //     // footer={
+        //     //     <div className="text-center">
+        //     //         <button
+        //     //             onClick={onViewAll}
+        //     //             className="text-blue-600 hover:underline"
+        //     //         >
+        //     //             View All Saved Jobs
+        //     //         </button>
+        //     //     </div>
+        //     // }
+        // >
+        //     {isOpen && (
+        //         <div className="space-y-4">
+        //             {jobs.map((job) => (
+        //                 <SaveJobCard
+        //                     key={job.id}
+        //                     job={job}
+        //                     savedAgoText={getSavedAgoText(job)}
+        //                     matchPercent={getMatch(job)}
+        //                     isSaved={true}
+        //                 />
+        //             ))}
+        //         </div>
+        //     )}
+        // </CardLayout>
     )
 }
 

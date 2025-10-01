@@ -33,7 +33,7 @@ export default function ChatWidget() {
     {
       from: 'bot',
       content:
-        'Welcome to your AI Career Assistant!\nHow can I assist you today?',
+        'Welcome to your AI Career Buddy!\nHow can I assist you today?',
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ]);
@@ -99,7 +99,7 @@ export default function ChatWidget() {
       >
         {/* header */}
         <div className="flex items-center justify-between p-3 border-b">
-          <span className="font-semibold">Chat Assistant</span>
+          <span className="font-semibold">Career Buddy</span>
           <button
             aria-label="Close chat"
             onClick={() => setOpen(false)}

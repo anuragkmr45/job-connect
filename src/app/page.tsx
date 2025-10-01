@@ -7,12 +7,12 @@ import Link from "next/link";
 
 const Index = () => {
     return (
-        <div className="min-h-screen">
+        <div className="!flex !flex-col !max-h-screen">
             <HeroSection />
-            <FeaturesSection />
-            <JobsSection />
-            <NewsNotifications />
-            <Footer />
+            {/* <FeaturesSection /> */}
+            {/* <JobsSection /> */}
+            {/* <NewsNotifications /> */}
+            {/* <Footer /> */}
         </div>
     );
 };
@@ -21,47 +21,93 @@ export default Index;
 
 
 const HeroSection = () => {
+    const features = [
+        { title: "AI-Powered Matching", description: "Our advanced AI analyzes your military experience and matches you with roles that value your unique skills." },
+        { title: "Skills Translation", description: "Automatically translate military skills and experience into civilian-friendly terms for your resume." },
+        { title: "Veteran Network", description: "Connect with other veterans who have successfully transitioned to civilian careers." },
+    ];
+
     return (
-        <>
-        <div>
-            <header className="bg-gray-600 text-white shadow-lg h-0">
-            <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-amber-400 rounded-full flex items-center justify-center">
-                        <span className="text-indigo-800 font-bold text-xl">JC</span>
+        <div className="h-screen flex flex-col">
+            {/* Header */}
+            <header className="absolute top-0 left-0 w-full bg-gray-600/80 text-white shadow-lg z-50">
+                <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                        <div className="w-12 h-12 bg-amber-400 rounded-full flex items-center justify-center">
+                            <span className="text-indigo-800 font-bold text-xl">JC</span>
+                        </div>
+                        <div>
+                            <h1 className="text-2xl font-bold !mb-0">Job Connect</h1>
+                            <p className="text-sm/5 opacity-90">
+                                AI-Powered Military Career Portal
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                        <h1 className="text-2xl font-bold">Job Connect</h1>
-                        <p className="text-sm/5 opacity-90">
-                            AI-Powered Military Career Portal
-                        </p>
-                    </div>
+                    <nav className="hidden md:flex items-center space-x-6 !mt-0">
+                        <Link href='/signin'>
+                            <Button
+                                size="large"
+                                type="default"
+                                className="border border-white text-white hover:!bg-white hover:!text-indigo-700"
+                            >
+                                Sign In
+                            </Button>
+                        </Link>
+                    </nav>
                 </div>
-                <nav className="hidden md:flex items-center space-x-6 mt-0">
-                    <Link href='/signin'>
-                        <Button
-                            size="large"
-                            type="default"
-                            className="border border-white text-white hover:!bg-white hover:!text-indigo-700"
+            </header>
+
+            {/* Hero Content */}
+            <section
+                className="flex-1 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white flex flex-col justify-between"
+                style={{
+                    backgroundImage: "url('/FrontPage.png')",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                }}
+            >
+                {/* Left Sidebar Features (moved a bit up) */}
+                <div className="absolute left-0 top-28 flex flex-col space-y-4 z-20">
+                    {features.map((feature, i) => (
+                        <div
+                            key={i}
+                            className="group relative w-8 hover:w-64 transition-all duration-300 
+                            overflow-hidden bg-white/90 backdrop-blur-md 
+                            text-indigo-800 rounded-r-xl shadow-lg cursor-pointer flex flex-col"
                         >
-                            Sign In
-                        </Button>
-                    </Link>
-                </nav>
-            </div>
-        </header>
-        <section className="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-20"
-          style={{ backgroundImage: "url('/battlefield-action.jpg')" }}
-          >
-            <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                            {/* Vertical Title */}
+                            <div
+                                className="flex items-center justify-center font-semibold text-indigo-800 group-hover:hidden"
+                                style={{
+                                    writingMode: "vertical-rl",
+                                    textOrientation: "mixed",
+                                }}
+                            >
+                                {feature.title}
+                            </div>
+
+                            {/* Horizontal Title */}
+                            <div className="hidden group-hover:block p-4 font-semibold text-indigo-800">
+                                {feature.title}
+                            </div>
+
+                            {/* Description */}
+                            <div className="p-4 text-sm text-black hidden group-hover:block">
+                                {feature.description}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Main Content */}
+                <div className="flex-1 container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 items-center">
                     {/* Left Column */}
                     <div className="text-center md:text-left ml-32">
-                        <h1 className="text-5xl md:text-6xl font-bold mb-6">
-                            Your Next Mission:
-                            <span className="text-amber-300"> Career Success</span>
+                        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-amber-300">
+                            Your Next Mission: <span className="text-amber-300">Career Success</span>
                         </h1>
-                        <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl">
+                        <p className="text-lg md:text-xl mb-6 opacity-90 max-w-2xl text-white">
                             AI-powered job matching for military personnel. Find your perfect role
                             in civilian careers, government positions, and defense contractors.
                         </p>
@@ -85,35 +131,62 @@ const HeroSection = () => {
                         </div>
                     </div>
 
-                    {/* Right Column (News Section) */}
-                    <div className="flex justify-center md:justify-end mt-12">
-                        <div className="bg-white rounded-xl shadow-lg h-[500px] w-full max-w-sm overflow-hidden">
-                            <NewsSection />
+                    {/* Right Column (News Section with View All) */}
+                    <div className="flex justify-center md:justify-end">
+                        <div className="bg-white rounded-xl shadow-lg h-[260px] w-full max-w-sm overflow-hidden flex flex-col">
+                            <div className="flex-1 overflow-y-auto">
+                                <NewsSection />
+                            </div>
+                            <div className="p-3 border-t text-center">
+                                <Link href="/news">
+                                    <Button
+                                        size="small"
+                                        type="default"
+                                        className="border border-indigo-600 text-indigo-600 hover:!bg-indigo-600 hover:!text-white rounded-2xl !bg-blue-300"
+                                    >
+                                        View All
+                                    </Button>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Stats Row */}
-                <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <div>
-                        <h3 className="text-3xl font-bold text-amber-300">50,000+</h3>
-                        <p className="text-white/90">Active Job Listings</p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center py-3">
+                    <div className="bg-white w-[200px] ml-54 rounded-2xl p-1">
+                        <div className="h-2 bg-indigo-600 rounded-t-2xl w-full"></div>
+                        <h3 className="text-2xl font-bold text-indigo-900">50,000+</h3>
+                        <p className="text-black/90">Active Job Listings</p>
+                        <div className="h-2 bg-indigo-600 rounded-b-2xl w-full"></div>
                     </div>
-                    <div>
-                        <h3 className="text-3xl font-bold text-amber-300">15,000+</h3>
-                        <p className="text-white/90">Veterans Placed</p>
+                    <div className="bg-white w-[200px] ml-54 rounded-2xl p-1">
+                        <div className="h-2 bg-indigo-600 rounded-t-2xl w-full"></div>
+                        <h3 className="text-2xl font-bold text-indigo-900">15,000+</h3>
+                        <p className="text-black/90">Veterans Placed</p>
+                        <div className="h-2 bg-indigo-600 rounded-b-2xl w-full"></div>
                     </div>
-                    <div>
-                        <h3 className="text-3xl font-bold text-amber-300">500+</h3>
-                        <p className="text-white/90">Partner Companies</p>
+                    <div className="bg-white w-[200px] ml-54 rounded-2xl p-1">
+                        <div className="h-2 bg-indigo-600 rounded-t-2xl w-full"></div>
+                        <h3 className="text-2xl font-bold text-indigo-900">500+</h3>
+                        <p className="text-black/90">Partner Companies</p>
+                        <div className="h-2 bg-indigo-600 rounded-b-2xl w-full"></div>
                     </div>
                 </div>
-            </div>
-        </section>
+
+                {/* Footer Inside Hero */}
+                <footer className="bg-gray-600 text-white">
+                    <div className="container mx-auto px-4 text-center">
+                        <p className="text-sm text-white/90 !mt-2">
+                            Developed By MCEME | © 2025 Job Connect
+                        </p>
+                    </div>
+                </footer>
+            </section>
         </div>
-        </>
     );
 };
+
 
 
 const FeaturesSection = () => {
@@ -507,19 +580,21 @@ const NewsNotifications = () => {
                 </div>
             </div>
         </section>
+
+
     );
 };
 
-const Footer = () => {
-    return (
-        <footer className="bg-gray-600 text-white py-8">
-            <div className="container mx-auto px-4">
-                <div className="border-t border-white/20 mt-6 pt-6 text-center">
-                    <p className="text-sm text-white/90">
-                        Official Indian Government Website | © 2025 Job Connect
-                    </p>
-                </div>
-            </div>
-        </footer>
-    );
-};
+// const Footer = () => {
+//     return (
+//         <footer className="bg-gray-600 text-white mt-0">
+//             <div className="container mx-auto px-4">
+//                 <div className="border-t border-white/20 pt-6 text-center">
+//                     <p className="text-sm text-white/90">
+//                         Developed By MCEME | © 2025 Job Connect
+//                     </p>
+//                 </div>
+//             </div>
+//         </footer>
+//     );
+// };

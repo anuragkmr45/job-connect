@@ -20,7 +20,7 @@ const ITEMS: SidebarItem[] = [
   { key: 'profile', label: 'Profile', icon: <FiBookmark />, href: '/profile' },
   { key: 'searchjobs', label: 'Search Jobs', icon: <FiMessageSquare />, href: '/search-jobs' },
   { key: 'appliedjobs', label: 'Applied Jobs', icon: <FiMessageSquare />, href: '/applied-jobs' },
-  { key: 'chatassistant', label: 'Chat Assistant', icon: <FiMessageSquare />, href: '/chat-assistant' },
+  // { key: 'chatassistant', label: 'Chat Assistant', icon: <FiMessageSquare />, href: '/chat-assistant' },
 ]
 
 export default function Sidebar() {

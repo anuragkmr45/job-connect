@@ -28,7 +28,7 @@ export default function ChatAssistant() {
   const [messages, setMessages] = useState<Message[]>([
     {
       from: 'bot',
-      content: `Welcome to your AI Career Assistant! I’m standing by to help with your mission objectives. How can I assist you today?`,
+      content: `Welcome to your AI Career Buddy! I’m standing by to help with your mission objectives. How can I assist you today?`,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ]);
