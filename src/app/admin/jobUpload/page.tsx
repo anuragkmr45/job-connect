@@ -76,7 +76,7 @@ export default function JobUploadPage() {
       formData.append('file', file);
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/job-pool/upload`,
+        `${process.env.NEXT_PUBLIC_API_URL}api/job-pool/upload`,
         {
           method: 'POST',
           body: formData,
