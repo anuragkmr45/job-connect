@@ -1,3 +1,5 @@
+//src\app\(protected)\chat-assistant\page.tsx
+
 'use client';
 
 import React, { useState, useEffect, ReactNode } from 'react';
