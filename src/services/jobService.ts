@@ -10,32 +10,39 @@ import type {
     PaginationParams,
 } from '../types/job';
 
-const mapJob = (raw: any): Job => ({
-    id: raw.id,
-    title: raw.title,
-    description: raw.description,
-    redirect_url: raw.redirect_url,
-    adref: raw.adref,
-    contract_type: raw.contract_type,
-    contract_time: raw.contract_time,
-    salary_min: raw.salary_min,
-    salary_max: raw.salary_max,
-    salary_is_predicted: raw.salary_is_predicted,
-    created: raw.created,
-    latitude: raw.latitude,
-    longitude: raw.longitude,
-    category: {
-        label: raw.category.label,
-        tag: raw.category.tag,
-    },
-    company: {
-        display_name: raw.company.display_name,
-    },
-    location: {
-        display_name: raw.location.display_name,
-        area: raw.location.area,
-    },
-});
+const mapJob = (raw: any): Job => {
+    const categoryLabel =
+        raw?.category?.label ??
+        raw?._jobpool?.role ?? // for JobPool rows
+        '';
+
+    return {
+        id: raw.id,
+        title: raw.title,
+        description: raw.description,
+        redirect_url: raw.redirect_url,
+        adref: raw.adref,
+        contract_type: raw.contract_type,
+        contract_time: raw.contract_time,
+        salary_min: raw.salary_min,
+        salary_max: raw.salary_max,
+        salary_is_predicted: raw.salary_is_predicted,
+        created: raw.created,
+        latitude: raw.latitude,
+        longitude: raw.longitude,
+        category: {
+            label: categoryLabel,
+            tag: raw?.category?.tag ?? '',
+        },
+        company: {
+            display_name: raw?.company?.display_name ?? '',
+        },
+        location: {
+            display_name: raw?.location?.display_name ?? '',
+            area: raw?.location?.area ?? [],
+        },
+    };
+};
 
 export const jobApi = createApi({
     reducerPath: 'jobApi',
