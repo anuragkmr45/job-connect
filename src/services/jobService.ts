@@ -10,7 +10,7 @@ import type {
     PaginationParams,
 } from '../types/job';
 
-const mapJob = (raw: any): Job => {
+export const mapJob = (raw: any): Job => {
     const categoryLabel =
         raw?.category?.label ??
         raw?._jobpool?.role ?? // for JobPool rows
