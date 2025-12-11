@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef, ReactNode } from 'react';
 import { Button, Input } from 'antd';
-import { FaRegCommentDots, FaTimes, FaPaperPlane } from 'react-icons/fa';
+import { FaRegCommentDots, FaTimes, FaPaperPlane, FaExpand, FaCompress } from 'react-icons/fa';
 import { useChat } from '@/hooks/useChat';
 import CustomCarousel from '@/components/CustomCarousel';
 import JobListingCard from '@/components/cards/JobListingCard';
@@ -28,6 +28,7 @@ const quickActions = [
 export default function ChatWidget() {
   /* ─────────── state & hooks ─────────── */
   const [open, setOpen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -87,26 +88,50 @@ export default function ChatWidget() {
     }
   };
 
+  /* ────────── toggle fullscreen ─────────── */
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
   /* ───────────────────── UI ───────────────────── */
   return (
     <>
       {/* ▾▾▾  POP-UP PANEL  ▾▾▾ */}
       <div
-        className={`fixed z-50 bottom-28 right-6 w-80 max-w-[90vw] h-[28rem] bg-white rounded-lg shadow-2xl flex flex-col
-          transition-all duration-300 ease-out
-          ${open ? 'opacity-100 translate-y-0 pointer-events-auto'
-                 : 'opacity-0 translate-y-4 pointer-events-none'}`}
+        className={`fixed z-50 bg-white rounded-lg shadow-2xl flex flex-col
+  transition-all duration-300 ease-out
+  ${open ? 'opacity-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 translate-y-4 pointer-events-none'}
+  ${isFullscreen
+            ? 'top-4 right-4 bottom-4 left-[calc(256px+1rem)] w-auto h-auto lg:left-[calc(256px+1rem)] max-lg:left-4'
+            : 'bottom-28 right-6 w-80 max-w-[90vw] h-[28rem]'}`}
       >
         {/* header */}
         <div className="flex items-center justify-between p-3 border-b">
           <span className="font-semibold">Career Buddy</span>
-          <button
-            aria-label="Close chat"
-            onClick={() => setOpen(false)}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            <FaTimes className="h-4 w-4" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+              onClick={toggleFullscreen}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              {isFullscreen ? (
+                <FaCompress className="h-4 w-4" />
+              ) : (
+                <FaExpand className="h-4 w-4" />
+              )}
+            </button>
+            <button
+              aria-label="Close chat"
+              onClick={() => {
+                setOpen(false);
+                setIsFullscreen(false);
+              }}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              <FaTimes className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         {/* messages */}
@@ -117,7 +142,7 @@ export default function ChatWidget() {
               className={`flex ${m.from === 'bot' ? 'justify-start' : 'justify-end'}`}
             >
               <div
-                className={`max-w-xs px-3 py-2 rounded-lg text-sm
+                className={`${isFullscreen ? 'max-w-2xl' : 'max-w-xs'} px-3 py-2 rounded-lg text-sm
                   ${m.from === 'bot'
                     ? 'bg-gray-200 text-gray-800'
                     : 'bg-blue-600 text-white'}`}

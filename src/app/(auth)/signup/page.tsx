@@ -125,13 +125,13 @@ export default function SignUp() {
     <AuthLayout>
       <div className="flex flex-col overflow-hidden">
         <div className="flex-none p-4">
-          <Title level={2}>{titleText}</Title>
+          <Title level={2} className='!text-white'>{titleText}</Title>
         </div>
 
         <Form<any>
           onFinish={onFinish as any}
           layout="vertical"
-          className="flex-1 flex flex-col overflow-hidden"
+          className="flex-1 flex flex-col overflow-hidden  white-labels"
         >
           <div className="flex-1 overflow-y-auto px-4 space-y-6">
             {config.map(field => {
@@ -199,8 +199,8 @@ export default function SignUp() {
               </Button>
             </Form.Item>
 
-            <div className="text-sm">
-              <Text>
+            <div className="text-sm  white-labels">
+              <Text className="!text-white">
                 Haveing an account?{' '}
                 <Link href="/signin" className="text-teal-700 font-semibold">
                   Sign In

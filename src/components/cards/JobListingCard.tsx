@@ -9,6 +9,7 @@ import { FaRegBookmark } from 'react-icons/fa'
 import CardLayout from '@/components/layouts/CardLayout'
 import type { Job } from '@/types/job'
 import { useJobActions } from '@/utils/jobActions'
+import { FiExternalLink } from 'react-icons/fi'
 
 export interface JobListingCardProps {
     data: Job
@@ -97,7 +98,7 @@ export default function JobListingCard({
                 </Button>
                 <div className="flex items-center space-x-2">
                     <Button
-                        icon={<CiExport />}
+                        icon={<FiExternalLink />}
                         onClick={() => window.open(applyLink, '_blank')}
                     />
                     <Button
