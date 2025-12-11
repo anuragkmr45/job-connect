@@ -51,23 +51,23 @@ export const jobApi = createApi({
     endpoints: (builder) => ({
         searchJobs: builder.query<PaginatedJobsResponse, SearchParams>({
             query: (params) => ({
-                url: '/api/jobs/search',
-                params: {
-                    page: params.page,
-                    pageSize: params.pageSize,
-                    q: params.q,
-                    trade: params.trade,
-                    where: params.location,
-                    salary_min: params.salary_min,
-                    salary_max: params.salary_max,
-                },
+              url: '/api/jobs/search',
+              params: {
+                page: params.page,
+                pageSize: params.pageSize,
+                q: params.q,                // PRIMARY keyword; wired from useJobs
+                trade: params.trade,
+                location: params.location,  
+                salary_min: params.salary_min,
+                salary_max: params.salary_max,
+              },
             }),
             transformResponse: (raw: any): PaginatedJobsResponse => ({
                 count: raw.count,
                 page: raw.page,
-                pageSize: raw.results_per_page,
+                pageSize: raw.pageSize ?? raw.results_per_page,
                 jobs: raw.jobs.map(mapJob),
-            }),
+              }),
             providesTags: ['Jobs'],
         }),
         getRecommendedJobs: builder.query<RecommendedJobsResponse, PaginationParams>({
