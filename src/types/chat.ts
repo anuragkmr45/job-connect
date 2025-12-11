@@ -7,5 +7,8 @@ export interface ChatRequest {
 
 export interface ChatResponse {
   reply: string;
-  jobs?: Job[];   // when the bot returns matching jobs
+  count?: number;
+  page?: number;
+  pageSize?: number;
+  jobs?: Job[];   // ⬅️ important
 }
