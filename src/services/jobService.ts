@@ -55,7 +55,7 @@ export const jobApi = createApi({
               params: {
                 page: params.page,
                 pageSize: params.pageSize,
-                q: params.q,                
+                q: params.q,                // PRIMARY keyword; wired from useJobs
                 trade: params.trade,
                 location: params.location,  
                 salary_min: params.salary_min,
