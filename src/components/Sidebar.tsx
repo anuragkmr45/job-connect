@@ -4,7 +4,7 @@ import React from 'react'
 import { Button } from 'antd'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FiSearch, FiBookmark, FiMessageSquare } from 'react-icons/fi'
+import { FiSearch, FiBookmark, FiMessageSquare, FiCheckSquare, FiUser, FiGrid } from 'react-icons/fi'
 import Image from 'next/image'
 import { useLogout } from '@/hooks/useLogout'
 
@@ -16,10 +16,10 @@ interface SidebarItem {
 }
 
 const ITEMS: SidebarItem[] = [
-  { key: 'dashboard', label: 'Dashboard', icon: <FiSearch />, href: '/main' },
-  { key: 'profile', label: 'Profile', icon: <FiBookmark />, href: '/profile' },
-  { key: 'searchjobs', label: 'Search Jobs', icon: <FiMessageSquare />, href: '/search-jobs' },
-  { key: 'appliedjobs', label: 'Applied Jobs', icon: <FiMessageSquare />, href: '/applied-jobs' },
+  { key: 'dashboard', label: 'Dashboard', icon: <FiGrid />, href: '/main' },
+  { key: 'profile', label: 'Profile', icon: <FiUser />, href: '/profile' },
+  { key: 'searchjobs', label: 'Search Jobs', icon: <FiSearch />, href: '/search-jobs' },
+  { key: 'appliedjobs', label: 'Applied Jobs', icon: <FiCheckSquare />, href: '/applied-jobs' },
   // { key: 'chatassistant', label: 'Chat Assistant', icon: <FiMessageSquare />, href: '/chat-assistant' },
 ]
 
