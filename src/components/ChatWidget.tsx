@@ -201,7 +201,7 @@ export default function ChatWidget() {
         onClick={() => setOpen((o) => !o)}
         aria-label="Open chat"
         shape="circle"
-        type="primary"
+        className='!bg-[#40da4d]'
         size="large"
         icon={<FaRegCommentDots className="h-5 w-5" />}
         style={{
@@ -212,6 +212,9 @@ export default function ChatWidget() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          backgroundColor: '#1e293b',
+          borderColor: '#1e293b',
+          color: 'white',
         }}
       />
     </>

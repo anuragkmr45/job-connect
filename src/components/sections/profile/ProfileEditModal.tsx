@@ -26,7 +26,11 @@ export interface ProfileEditModalProps {
         contact: string;
         aadhaar: string;
         pan: string;
-        military_trade_id?: number;
+        military_trade_id?: string | number;
+        service_status?: string | number;
+        qualification?: string | number;
+        preferred_locations?: string[] | number[];
+        work_roles?: string[] | number[];
         service_status_id?: number;
         preferred_location_ids?: number[];
         work_role_ids?: number[];
@@ -64,11 +68,37 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
         initialValues.profile_pic_url ?? AVATAR_FALLBACK
     );
 
-    // whenever we open (or initialValues change), reset the form & preview
     useEffect(() => {
         if (visible) {
+            form.resetFields();
+
+            const findValueByLabel = (options: Option[], value: string | number | undefined): string | number | undefined => {
+                if (value === undefined) return undefined;
+                if (typeof value === 'number') return value;
+                return options.find(opt => opt.label === value)?.value;
+            };
+
+            const findValuesByLabels = (options: Option[], values: (string | number)[] | undefined): (string | number)[] => {
+                if (!values || !Array.isArray(values)) return [];
+                return values
+                    .map(value => {
+                        if (typeof value === 'number') return value;
+                        return options.find(opt => opt.label === value)?.value;
+                    })
+                    .filter((val): val is string | number => val !== undefined);
+            };
+
             form.setFieldsValue({
-                ...initialValues,
+                name: initialValues.name,
+                email: initialValues.email,
+                contact: initialValues.contact,
+                aadhaar: initialValues.aadhaar,
+                pan: initialValues.pan,
+                military_trade_id: findValueByLabel(tradeOptions, initialValues.military_trade_id),
+                service_status_id: findValueByLabel(statusOptions, initialValues.service_status),
+                qualification_id: findValueByLabel(qualOptions, initialValues.qualification),
+                preferred_location_ids: findValuesByLabels(locOptions, initialValues.preferred_locations),
+                work_role_ids: findValuesByLabels(roleOptions, initialValues.work_roles),
                 profile_pic: undefined,
             });
             setPreview(initialValues.profile_pic_url ?? AVATAR_FALLBACK);
@@ -94,7 +124,6 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
             <Form
                 form={form}
                 layout="vertical"
-                initialValues={initialValues}
                 onFinish={onFinish}
             >
                 <InputField name="name" label="Name" placeholder="Full name" />
@@ -157,7 +186,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                 />
 
                 {/* Profile Picture */}
-                <Form.Item name="profile_pic" label="Profile Picture">
+                {/* <Form.Item name="profile_pic" label="Profile Picture">
                     <div className="flex flex-col items-start">
                         <img
                             src={preview}
@@ -173,7 +202,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                             onChange={handleFileChange}
                         />
                     </div>
-                </Form.Item>
+                </Form.Item> */}
 
                 <div style={{ textAlign: "right" }}>
                     <Button

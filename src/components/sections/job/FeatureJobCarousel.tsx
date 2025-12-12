@@ -47,9 +47,9 @@ export default function FeatureJobCarousel({ featuredJobs, cardBg }: FeatureJobC
 
             {/* Carousel itself */}
             <CustomCarousel
-                ref={sliderRef}          // 🔗 gives our buttons control
+                ref={sliderRef}
                 slidesToShow={3}
-                arrows={false}           // hide built-ins → we’re using custom ones
+                arrows={false}
                 dots={false}
                 infinite
                 autoplay
