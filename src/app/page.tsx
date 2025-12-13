@@ -4,6 +4,7 @@ import NewsSection from "@/components/News/NewsSection";
 import { Job } from "@/types/job";
 import { Button } from "antd";
 import Link from "next/link";
+import { IoChevronDown } from "react-icons/io5";
 
 const Index = () => {
     return (
@@ -121,13 +122,13 @@ const HeroSection = () => {
                                     Find Your Next Role
                                 </Button>
                             </Link>
-                            <Button
+                            {/* <Button
                                 size="large"
                                 type="default"
                                 className="border border-white text-white hover:!bg-white hover:!text-indigo-700 text-lg px-8 py-5"
                             >
                                 Browse Companies
-                            </Button>
+                            </Button> */}
                         </div>
                     </div>
 
@@ -138,13 +139,13 @@ const HeroSection = () => {
                                 <NewsSection />
                             </div>
                             <div className="p-3 border-t text-center">
-                                <Link href="/news">
+                                <Link href="">
                                     <Button
                                         size="small"
                                         type="default"
-                                        className="border border-indigo-600 text-indigo-600 hover:!bg-indigo-600 hover:!text-white rounded-2xl !bg-blue-300"
+                                        className="border border-indigo-600 text-indigo-600 hover:!bg-indigo-600 hover:!text-white rounded-2xl !bg-indigo-300"
                                     >
-                                        View All
+                                        <IoChevronDown className="text-indigo-400 hover:text-indigo-400 cursor-pointer text-xl" />
                                     </Button>
                                 </Link>
                             </div>

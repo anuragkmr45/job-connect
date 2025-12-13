@@ -103,7 +103,7 @@ export default function ChatWidget() {
   ${open ? 'opacity-100 translate-y-0 pointer-events-auto'
             : 'opacity-0 translate-y-4 pointer-events-none'}
   ${isFullscreen
-            ? 'top-4 right-4 bottom-4 left-[calc(256px+1rem)] w-auto h-auto lg:left-[calc(256px+1rem)] max-lg:left-4'
+            ? 'top-20 right-4 bottom-4 left-[calc(256px+1rem)] w-auto h-auto lg:left-[calc(256px+1rem)] max-lg:left-4'
             : 'bottom-28 right-6 w-80 max-w-[90vw] h-[28rem]'}`}
       >
         {/* header */}
