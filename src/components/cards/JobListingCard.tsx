@@ -3,12 +3,13 @@
 
 import React from 'react'
 import { Tag, Button } from 'antd'
-import { AiOutlineEnvironment, AiOutlineClockCircle } from 'react-icons/ai'
+import { AiOutlineEnvironment, AiOutlineClockCircle, AiOutlineEye } from 'react-icons/ai'
 import { CiDollar, CiExport } from 'react-icons/ci'
 import { FaRegBookmark } from 'react-icons/fa'
 import CardLayout from '@/components/layouts/CardLayout'
 import type { Job } from '@/types/job'
 import { useJobActions } from '@/utils/jobActions'
+import { FiExternalLink } from 'react-icons/fi'
 
 export interface JobListingCardProps {
     data: Job
@@ -19,7 +20,7 @@ export interface JobListingCardProps {
 
 export default function JobListingCard({
     data,
-    cardBg = 'bg-white',
+    cardBg = 'bg-[#faf4eb]',
     isSaved = false,
 }: JobListingCardProps) {
     const {
@@ -97,7 +98,7 @@ export default function JobListingCard({
                 </Button>
                 <div className="flex items-center space-x-2">
                     <Button
-                        icon={<CiExport />}
+                        icon={<AiOutlineEye />}
                         onClick={() => window.open(applyLink, '_blank')}
                     />
                     <Button

@@ -5,6 +5,7 @@ import { GoStarFill } from "react-icons/go";
 import { CiUser } from "react-icons/ci";
 import CardLayout from '@/components/layouts/CardLayout'
 import { calculateYearsServed } from '@/utils/calculateYearsServed';
+import { useRouter } from 'next/navigation';
 
 interface ProfileCompletionCardPrope {
     cardBg?: string
@@ -17,7 +18,8 @@ interface ProfileCompletionCardPrope {
 }
 
 export default function ProfileCompletionCard({ cardBg, avatarImg, email, username, trade, serviceStart, serviceEnd }: ProfileCompletionCardPrope) {
-    const percent = 75
+    const router = useRouter();
+    const percent = 100
 
     const yearsServed = calculateYearsServed(serviceStart, serviceEnd);
 
@@ -42,7 +44,7 @@ export default function ProfileCompletionCard({ cardBg, avatarImg, email, userna
             hoverable={false}
             className="text-white"
             style={{ borderRadius: '1rem' }}
-            cardBg={cardBg ?? 'bg-[#334155]'}
+            cardBg={cardBg ?? 'bg-[#1677ff]'}
         >
             <div className='flex justify-between align-middle w-full'>
                 <div className='w-full'>
@@ -58,9 +60,11 @@ export default function ProfileCompletionCard({ cardBg, avatarImg, email, userna
                         className="mt-2"
                     />
                 </div>
-                <Button type="default" size='small' shape="round" className='my-auto'>
-                    Complete Now
-                </Button>
+                <div className='flex justify-center items-center ml-2 mt-4'>
+                    <Button type="default" size='small' shape="round" className='my-auto' onClick={() => router.push('/profile')}>
+                        View Profile
+                    </Button>
+                </div>
             </div>
         </CardLayout>
     )

@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+.white-labels .ant-form-item-label > label {
+  color: white;
+}

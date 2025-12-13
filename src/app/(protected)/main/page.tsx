@@ -16,6 +16,10 @@ import Spinner from "@/components/Spinner";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "antd";
+import { IoCloudUploadOutline, IoShareSocialOutline } from "react-icons/io5";
+import { HiOutlineDocumentText } from "react-icons/hi";
+import { FaUserFriends } from "react-icons/fa";
+import { MdOutlineUpgrade } from "react-icons/md";
 
 export default function Home() {
 
@@ -88,7 +92,7 @@ export default function Home() {
         }
       </div>
       <div className="my-12">
-        <Link  href='https://www.ncs.gov.in/' target="_blank" className="flex justify-end">
+        <Link href='https://www.ncs.gov.in/' target="_blank" className="flex justify-end">
           <Button type="primary" size="large">
             NCS Jobs
           </Button>
@@ -102,16 +106,32 @@ export default function Home() {
         <div className="grid grid-cols-3 !gap-4">
           <SavedJobsPanel jobs={saved} />
           <SavedJobsPanel jobs={applied} title="Applied Jobs" />
-          <SavedJobsPanel jobs={viewed} title="Viewed Jobs" />
+          {/* <SavedJobsPanel jobs={viewed} title="Viewed Jobs" /> */}
         </div>
       </div>}
       <div className="my-6">
         <h2 className="text-2xl text=[#1E293B] font-semibold">Quick Actions</h2>
         <div className="grid grid-cols-2 gap-2">
-          <DocumentUploadCard title="Upload Document" subtitle="Add resume, certificates, or other documents" />
-          <DocumentUploadCard title="Resume Builder" subtitle="Create or update your military-to-civilian resume" />
-          <DocumentUploadCard title="Refer a Friend" subtitle="Help fellow service members find opportunities" />
-          <DocumentUploadCard title="Skill Upgrade" subtitle="Explore training programs and certifications" />
+          <DocumentUploadCard
+            title="Upload Document"
+            subtitle="Add resume, certificates, or other documents"
+            icon={<IoCloudUploadOutline className="text-3xl mx-auto text-gray-400" />}
+          />
+          <DocumentUploadCard
+            title="Resume Builder"
+            subtitle="Create or update your military-to-civilian resume"
+            icon={<HiOutlineDocumentText className="text-3xl mx-auto text-gray-400" />}
+          />
+          <DocumentUploadCard
+            title="Refer a Friend"
+            subtitle="Help fellow service members find opportunities"
+            icon={<IoShareSocialOutline className="text-3xl mx-auto text-gray-400" />}
+          />
+          <DocumentUploadCard
+            title="Skill Upgrade"
+            subtitle="Explore training programs and certifications"
+            icon={<MdOutlineUpgrade className="text-3xl mx-auto text-gray-400" />}
+          />
         </div>
       </div>
     </DashboardLayout>

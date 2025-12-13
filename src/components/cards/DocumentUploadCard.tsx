@@ -4,9 +4,9 @@
 import React from 'react'
 import { Upload } from 'antd'
 import { IoCloudUploadOutline } from 'react-icons/io5'
-import CardLayout from '@/components/layouts/CardLayout'   // <-- corrected import
+import CardLayout from '@/components/layouts/CardLayout'
 
-export default function DocumentUploadCard({title, subtitle}: {title: string, subtitle: string}) {
+export default function DocumentUploadCard({title, subtitle, icon}: {title: string, subtitle: string, icon?: React.ReactNode}) {
     return (
         <CardLayout
             elevation="md"
@@ -20,7 +20,7 @@ export default function DocumentUploadCard({title, subtitle}: {title: string, su
                 className="p-6 bg-transparent"
             >
                 <div className="text-center">
-                    <IoCloudUploadOutline className="text-3xl mx-auto text-gray-400" />
+                    {icon ? icon : <IoCloudUploadOutline className="mx-auto text-4xl text-gray-400" />}
                     <div className="mt-2 font-semibold">{title}</div>
                     <div className="text-xs text-gray-500">{subtitle}</div>
                 </div>

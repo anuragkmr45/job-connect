@@ -43,7 +43,7 @@ export default function SignIn() {
       <Form
         layout="vertical"
         onFinish={onFinish}
-        className="space-y-6 mt-4"
+        className="space-y-6 mt-4  white-labels"
       >
         <Form.Item
           name="email"  

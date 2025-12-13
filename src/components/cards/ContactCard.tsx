@@ -70,13 +70,13 @@ export default function ContactCard({ phone, email, location, editProfile }: Con
                 </li>
 
                 {/* Location */}
-                <li className="flex items-start space-x-3">
+                {/* <li className="flex items-start space-x-3">
                     <HiLocationMarker size={24} className="text-gray-400 flex-shrink-0" />
                     <div className="flex-1">
                         <p className="text-sm font-medium text-gray-500">Location</p>
                         <p className="mt-1 text-gray-900">{location}</p>
                     </div>
-                </li>
+                </li> */}
             </ul>
         </CardLayout>
     )

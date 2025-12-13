@@ -81,7 +81,7 @@ export default function DashboardLayout({ children }: PropsWithChildren<{}>) {
               {/* Popup message */}
               {showMessage && (
                 <div
-                  className={`flex justify-start items-center px-4 py-2 bg-blue-500 text-white text-sm font-medium transform transition-all duration-500 ease-out
+                  className={`flex justify-start items-center px-4 py-2 !bg-[#40da4d] text-white text-sm font-medium transform transition-all duration-500 ease-out
                   ${showMessage ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`}
                 >
                   <button

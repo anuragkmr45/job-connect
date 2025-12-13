@@ -220,7 +220,6 @@ export default function Profile() {
       }
     });
 
-    // 🔍 for each entry, make sure profile_pic shows up in your console
     for (let [k, v] of fd.entries()) {
       console.log(k, v);
     }
@@ -288,11 +287,11 @@ export default function Profile() {
           </CardLayout>
 
         </div>
-        <div className="col-span-2 self-start">
+        {/* <div className="col-span-2 self-start">
           <div className="sticky top-6">
             <PreferencesCard />
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Edit Modal */}

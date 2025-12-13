@@ -4,7 +4,7 @@ import React from 'react'
 import { Button } from 'antd'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FiSearch, FiBookmark, FiMessageSquare } from 'react-icons/fi'
+import { FiSearch, FiBookmark, FiMessageSquare, FiCheckSquare, FiUser, FiGrid } from 'react-icons/fi'
 import Image from 'next/image'
 import { useLogout } from '@/hooks/useLogout'
 
@@ -16,10 +16,10 @@ interface SidebarItem {
 }
 
 const ITEMS: SidebarItem[] = [
-  { key: 'dashboard', label: 'Dashboard', icon: <FiSearch />, href: '/main' },
-  { key: 'profile', label: 'Profile', icon: <FiBookmark />, href: '/profile' },
-  { key: 'searchjobs', label: 'Search Jobs', icon: <FiMessageSquare />, href: '/search-jobs' },
-  { key: 'appliedjobs', label: 'Applied Jobs', icon: <FiMessageSquare />, href: '/applied-jobs' },
+  { key: 'dashboard', label: 'Dashboard', icon: <FiGrid />, href: '/main' },
+  { key: 'profile', label: 'Profile', icon: <FiUser />, href: '/profile' },
+  { key: 'searchjobs', label: 'Search Jobs', icon: <FiSearch />, href: '/search-jobs' },
+  { key: 'appliedjobs', label: 'Applied Jobs', icon: <FiCheckSquare />, href: '/applied-jobs' },
   // { key: 'chatassistant', label: 'Chat Assistant', icon: <FiMessageSquare />, href: '/chat-assistant' },
 ]
 
@@ -35,13 +35,13 @@ export default function Sidebar() {
     || ITEMS[0].key
 
   return (
-    <div className="flex flex-col h-screen bg-[#1e293b] text-white">
+    <div className="flex flex-col h-screen bg-[#1677ff] !text-white">
       {/* header */}
       <Link href='/main' className="flex items-center px-6 py-4 space-x-3 cursor-pointer">
         <Image src="https://res.cloudinary.com/dkwptotbs/image/upload/v1751692517/job-connect_lhcl0l.png" alt="JobConnect" width={40} height={40} />
         <div>
           <h1 className="text-lg font-semibold">JobConnect</h1>
-          <p className="text-xs text-gray-400">Military Career Portal</p>
+          <p className="text-xs text-[#eee4e4]">Military Career Portal</p>
         </div>
       </Link>
 
@@ -57,8 +57,8 @@ export default function Sidebar() {
                 flex items-center px-4 py-3 rounded-lg
                 transition-all duration-200 ease-in-out
                 ${isActive
-                  ? 'bg-[#334155] text-amber-50 shadow-md'
-                  : 'text-gray-300 hover:bg-[#2e3a4b] hover:shadow-sm'}
+                  ? 'bg-[#82aafa] text-amber-50 shadow-md'
+                  : 'text-gray-300 hover:bg-[#82aafa] hover:shadow-sm'}
               `}
             >
               <span className="text-xl">{item.icon}</span>
