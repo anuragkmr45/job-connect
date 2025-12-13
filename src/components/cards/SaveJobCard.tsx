@@ -89,6 +89,7 @@ import { Button }        from 'antd'
 import CardLayout        from '@/components/layouts/CardLayout'
 import type { Job }      from '@/types/job'
 import { useJobActions } from '@/utils/jobActions'
+import { AiOutlineEye } from 'react-icons/ai'
 
 interface SaveJobCardProps {
   job: Job
@@ -144,13 +145,13 @@ export default function SaveJobCard({
       </div>
 
       <div className="mt-4 flex items-center justify-between">
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 gap-1">
           <Button type="primary" onClick={handleApply}>
             Apply
           </Button>
 
           <Button
-            icon={<CiExport />}
+            icon={<AiOutlineEye />}
             onClick={() => window.open(job.redirect_url, '_blank')}
           />
         </div>
