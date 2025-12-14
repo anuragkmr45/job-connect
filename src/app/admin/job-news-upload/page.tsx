@@ -34,7 +34,7 @@ export default function JobNewsUploadPage() {
       const formData = new FormData();
       formData.append('image', file);
 
-      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/job-news/from-image`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/job-news/from-image`;
 
       // Basic auth header matching backend adminBasicAuth
       const basic = btoa(`${ADMIN_EMAIL}:${ADMIN_PASS}`);
