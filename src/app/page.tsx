@@ -5,6 +5,8 @@ import { Job } from "@/types/job";
 import { Button } from "antd";
 import Link from "next/link";
 
+import NewsTicker from "@/components/News/NewsTicker";
+
 const Index = () => {
     return (
         <div className="!flex !flex-col !max-h-screen">
@@ -56,6 +58,8 @@ const HeroSection = () => {
                     </nav>
                 </div>
             </header>
+
+            <NewsTicker/>
 
             {/* Hero Content */}
             <section
