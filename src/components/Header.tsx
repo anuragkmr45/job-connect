@@ -56,7 +56,7 @@ const Header: React.FC<HeaderProps> = ({
           <div onClick={() => router.push('/profile')} className="w-8 h-8 rounded-full border border-black overflow-hidden cursor-pointer flex items-center justify-center">
             <Image
               // src={profile_pic_url ?? AVATAR_FALLBACK}
-              src="/profile.jpeg"
+              src="/user.jpg"
               alt="User Avatar"
               width={32}
               height={32}

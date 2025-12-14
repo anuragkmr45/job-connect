@@ -20,6 +20,7 @@ import { IoCloudUploadOutline, IoShareSocialOutline } from "react-icons/io5";
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { FaUserFriends } from "react-icons/fa";
 import { MdOutlineUpgrade } from "react-icons/md";
+import NewsTicker from "@/components/News/NewsTicker";
 
 export default function Home() {
 
@@ -84,6 +85,7 @@ export default function Home() {
           )
         })}
       </div>
+         <NewsTicker />
       <div className="bg-white my-6">
         {
           !isRecLoading && (
@@ -112,11 +114,11 @@ export default function Home() {
       <div className="my-6">
         <h2 className="text-2xl text=[#1E293B] font-semibold">Quick Actions</h2>
         <div className="grid grid-cols-2 gap-2">
-          <DocumentUploadCard
+          {/* <DocumentUploadCard
             title="Upload Document"
             subtitle="Add resume, certificates, or other documents"
             icon={<IoCloudUploadOutline className="text-3xl mx-auto text-gray-400" />}
-          />
+          /> */}
           <DocumentUploadCard
             title="Resume Builder"
             subtitle="Create or update your military-to-civilian resume"
@@ -127,11 +129,11 @@ export default function Home() {
             subtitle="Help fellow service members find opportunities"
             icon={<IoShareSocialOutline className="text-3xl mx-auto text-gray-400" />}
           />
-          <DocumentUploadCard
+          {/* <DocumentUploadCard
             title="Skill Upgrade"
             subtitle="Explore training programs and certifications"
             icon={<MdOutlineUpgrade className="text-3xl mx-auto text-gray-400" />}
-          />
+          /> */}
         </div>
       </div>
     </DashboardLayout>
