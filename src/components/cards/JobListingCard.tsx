@@ -63,9 +63,9 @@ export default function JobListingCard({
                     <h3 className="text-lg font-semibold">{title}</h3>
                     <div className="text-sm text-gray-500">{companyDisplayName}</div>
                 </div>
-                <Tag color="green" className="rounded-full">
+                {/* <Tag color="green" className="rounded-full">
                     92% match
-                </Tag>
+                </Tag> */}
             </div>
 
             {/* Meta info */}

@@ -77,7 +77,7 @@ export default function DashboardLayout({ children }: PropsWithChildren<{}>) {
           </main>
           <div className="fixed bottom-6 right-6 w-[450px] max-w-[90vw]">
             {/* Chat widget and welcome message */}
-            <div className="flex flex-col rounded-2xl overflow-hidden bg-blue-600 shadow-lg">
+            <div className="flex flex-col rounded-2xl overflow-hidden bg-blue-600 shadow-lg !border-none">
               {/* Popup message */}
               {showMessage && (
                 <div

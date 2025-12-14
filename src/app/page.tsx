@@ -60,7 +60,7 @@ const HeroSection = () => {
                 </div>
             </header>
 
-            <NewsTicker/>
+
 
             {/* Hero Content */}
             <section
@@ -126,6 +126,15 @@ const HeroSection = () => {
                                     Find Your Next Role
                                 </Button>
                             </Link>
+                            <Link href='/admin'>
+                                <Button
+                                    size="large"
+                                    type="primary"
+                                    className="!bg-white !border-white !text-indigo-900 hover:!bg-amber-500 text-lg px-8 py-5"
+                                >
+                                    Admin Access
+                                </Button>
+                            </Link>
                             {/* <Button
                                 size="large"
                                 type="default"
@@ -137,25 +146,18 @@ const HeroSection = () => {
                     </div>
 
                     {/* Right Column (News Section with View All) */}
-                    <div className="flex justify-center md:justify-end">
-                        <div className="bg-white rounded-xl shadow-lg h-[260px] w-full max-w-sm overflow-hidden flex flex-col">
+                    <div className="flex justify-center md:justify-end mt-26 rounded-2xl">
+                        <div className="bg-amber-50 rounded-xl h-[350px] w-full max-w-sm overflow-hidden flex flex-col shadow-2xl">
                             <div className="flex-1 overflow-y-auto">
                                 <NewsSection />
                             </div>
                             <div className="p-3 border-t text-center">
-                                <Link href="">
-                                    <Button
-                                        size="small"
-                                        type="default"
-                                        className="border border-indigo-600 text-indigo-600 hover:!bg-indigo-600 hover:!text-white rounded-2xl !bg-indigo-300"
-                                    >
-                                        <IoChevronDown className="text-indigo-400 hover:text-indigo-400 cursor-pointer text-xl" />
-                                    </Button>
-                                </Link>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <NewsTicker />
 
                 {/* Stats Row */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center py-3">

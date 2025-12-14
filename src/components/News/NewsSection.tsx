@@ -43,11 +43,11 @@ const NewsSection = () => {
     }, [newsItems.length]);
 
     return (
-        <div className="p-4">
-            <h3 className="text-lg font-semibold text-gray-700">
+        <div className="p-4 bg-[#fff7f7]">
+            <h3 className="text-lg font-semibold text-gray-700 rounded-2xl">
                 What's New
             </h3>
-            <div className="h-50 overflow-hidden relative">
+            <div className="!h-96 overflow-hidden relative">
                 <div
                     className="transition-transform duration-700 ease-in-out"
                     style={{ transform: `translateY(-${index * 6}rem)` }} // Adjust based on row height
