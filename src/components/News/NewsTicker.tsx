@@ -2,6 +2,16 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 
+type ApiJobNews = {
+  id: number | string;
+  headline: string;
+  body?: string | null;
+  source?: string | null;
+  location?: string | null;
+  published_on?: string | null;
+  createdAt?: string | null;
+};
+
 type JobNewsItem = {
   id: number | string;
   title: string;
@@ -20,10 +30,22 @@ export default function NewsTicker() {
 
     (async () => {
       try {
-        const base = process.env.NEXT_PUBLIC_API_URL;
-        const res = await fetch(`${base}api/job-news?limit=20`, { cache: 'no-store' });
+        const base = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/+$/, '');
+        const res = await fetch(`${base}/api/job-news?page=1&pageSize=10`, { cache: 'no-store' });
         const json = await res.json();
-        if (!cancelled) setItems(Array.isArray(json.items) ? json.items : []);
+
+        const news: ApiJobNews[] = Array.isArray(json.news) ? json.news : [];
+
+        const mapped: JobNewsItem[] = news.map((n) => ({
+          id: n.id,
+          title: n.headline,                 // ✅ headline -> title
+          body: n.body ?? null,
+          published_at: n.published_on ?? null, // ✅ published_on -> published_at
+          source_hint: n.source ?? null,
+          created_at: n.createdAt ?? null,
+        }));
+
+        if (!cancelled) setItems(mapped);
       } catch {
         if (!cancelled) setItems([]);
       } finally {
@@ -42,7 +64,6 @@ export default function NewsTicker() {
     return items.map((n) => n.title?.trim()).filter(Boolean);
   }, [items, loading]);
 
-  // duplicate for seamless loop
   const loop = [...text, ...text];
 
   return (
@@ -80,17 +101,12 @@ export default function NewsTicker() {
           margin-left: 14px;
           color: #9ca3af;
         }
-        /* pause on hover */
         .relative:hover .ticker-track {
           animation-play-state: paused;
         }
         @keyframes ticker {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
         }
       `}</style>
     </div>
