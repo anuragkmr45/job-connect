@@ -8,14 +8,14 @@ export default function AdminUploadPage() {
             title: "Upload Job",
             description: "Post new job listings and opportunities for veterans and military personnel",
             icon: MdWorkOutline,
-            to: "https://www.kantiloai.com/admin/jobUpload",
+            to: "/admin/jobUpload",
             color: "bg-indigo-600"
         },
         {
             title: "Upload News",
             description: "Share latest updates, announcements, and news articles with the community",
             icon: MdNewspaper,
-            to: "https://www.kantiloai.com/admin/job-news-upload",
+            to: "/admin/job-news-upload",
             color: "bg-emerald-600"
         }
     ];
