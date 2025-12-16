@@ -93,11 +93,10 @@ export default function JobUploadPage() {
       setMessageType('success');
       setMessageText(
         data?.message ||
-          `Upload successful${
-            data.inserted || data.total
-              ? ` (inserted: ${data.inserted ?? data.total})`
-              : ''
-          }.`
+        `Upload successful${data.inserted || data.total
+          ? ` (inserted: ${data.inserted ?? data.total})`
+          : ''
+        }.`
       );
       setFile(null);
     } catch (err: any) {
@@ -123,93 +122,91 @@ export default function JobUploadPage() {
   };
 
   return (
-    <DashboardLayout>
-      <div className="max-w-3xl mx-auto">
-        <CardLayout elevation="md" className="p-6 bg-white">
-          <h1 className="text-2xl font-semibold mb-4">
-            Admin Job Upload (CSV / XLSX)
-          </h1>
-          <p className="text-sm text-gray-600 mb-4">
-            This page allows an admin to upload bulk job data via CSV or Excel.
-          </p>
+    <div className="max-w-3xl mx-auto">
+      <CardLayout elevation="md" className="p-6 bg-white">
+        <h1 className="text-2xl font-semibold mb-4">
+          Admin Job Upload (CSV / XLSX)
+        </h1>
+        <p className="text-sm text-gray-600 mb-4">
+          This page allows an admin to upload bulk job data via CSV or Excel.
+        </p>
 
-          {messageText && (
-            <div className="mb-4">
-              <Alert message={messageText} type={messageType} showIcon />
+        {messageText && (
+          <div className="mb-4">
+            <Alert message={messageText} type={messageType} showIcon />
+          </div>
+        )}
+
+        {/* Admin login gate (hardcoded credentials) */}
+        {!authed ? (
+          <form onSubmit={handleAdminLogin} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Admin Email
+              </label>
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@kantiloai.com"
+                required
+              />
             </div>
-          )}
-
-          {/* Admin login gate (hardcoded credentials) */}
-          {!authed ? (
-            <form onSubmit={handleAdminLogin} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Admin Email
-                </label>
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@kantiloai.com"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Password
-                </label>
-                <Input.Password
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="@Hexmon123"
-                  required
-                />
-              </div>
-              <Button type="primary" htmlType="submit" block>
-                Login as Admin
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Password
+              </label>
+              <Input.Password
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="@Hexmon123"
+                required
+              />
+            </div>
+            <Button type="primary" htmlType="submit" block>
+              Login as Admin
+            </Button>
+          </form>
+        ) : (
+          <>
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-sm text-green-700 font-medium">
+                Admin access verified for this browser.
+              </span>
+              <Button size="small" danger onClick={handleLogoutAdmin}>
+                Clear Admin Session
               </Button>
-            </form>
-          ) : (
-            <>
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-sm text-green-700 font-medium">
-                  Admin access verified for this browser.
-                </span>
-                <Button size="small" danger onClick={handleLogoutAdmin}>
-                  Clear Admin Session
-                </Button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Select CSV / XLSX file
+                </label>
+                <input
+                  type="file"
+                  accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                  onChange={handleFileChange}
+                  className="block w-full text-sm"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Use the exact template/format expected by the backend
+                  (same as the one you shared).
+                </p>
               </div>
 
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Select CSV / XLSX file
-                  </label>
-                  <input
-                    type="file"
-                    accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                    onChange={handleFileChange}
-                    className="block w-full text-sm"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Use the exact template/format expected by the backend
-                    (same as the one you shared).
-                  </p>
-                </div>
-
-                <Button
-                  type="primary"
-                  onClick={handleUpload}
-                  loading={uploading}
-                  disabled={!file || uploading}
-                >
-                  {uploading ? 'Uploading…' : 'Upload Jobs File'}
-                </Button>
-              </div>
-            </>
-          )}
-        </CardLayout>
-      </div>
-    </DashboardLayout>
+              <Button
+                type="primary"
+                onClick={handleUpload}
+                loading={uploading}
+                disabled={!file || uploading}
+              >
+                {uploading ? 'Uploading…' : 'Upload Jobs File'}
+              </Button>
+            </div>
+          </>
+        )}
+      </CardLayout>
+    </div>
   );
 }
